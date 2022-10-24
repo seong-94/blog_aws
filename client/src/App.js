@@ -1,36 +1,28 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
-import Login from "./components/Login";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
-import Sidebar from "./components/Sidebar";
+import NavBar from "./components/NavBar";
+import Single from "./components/Single";
+import "./style.scss";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <div>
+      <>
         <Home />
-        <Sidebar />
-      </div>
+        <NavBar />
+      </>
     ),
   },
   {
-    path: "/login",
-    element: (
-      <div>
-        <Login />
-      </div>
-    ),
+    path: "/post/:id",
+    element: <Single />,
   },
 ]);
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <RouterProvider router={router} />
     </div>
   );
