@@ -3,6 +3,9 @@ import Home from "./components/Home";
 import NavBar from "./components/NavBar";
 import Register from "./components/Register";
 import Single from "./components/Single";
+import Write from "./components/Write";
+import Write2 from "./components/Write2";
+
 import "./style.scss";
 
 const router = createBrowserRouter([
@@ -11,6 +14,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <NavBar />
+        <Outlet />
         <Home />
       </>
     ),
@@ -22,6 +26,14 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/write",
+    element: <Write />,
+  },
+  {
+    path: "/write2",
+    element: <Write2 />,
   },
 ]);
 

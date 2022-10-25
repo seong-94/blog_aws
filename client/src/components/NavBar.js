@@ -6,6 +6,8 @@ import { AuthContext } from "../context/authContext";
 function NavBar() {
   const [submitmodal, setSubitModal] = useState(false);
 
+  const { currentUser, logout } = useContext(AuthContext);
+
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
@@ -24,6 +26,7 @@ function NavBar() {
     e.preventDefault();
     try {
       await login(inputs);
+      handleModal();
       navigate("/");
     } catch (err) {
       setError(err.response.data);
@@ -34,61 +37,84 @@ function NavBar() {
   };
   return (
     <div className="header_grid">
-      <div> </div>
       <div className="acenter">
+        {currentUser ? (
+          <h5>
+            <Link to="/write"> 글쓰기 </Link>
+          </h5>
+        ) : null}
         <Link className="link_tit" to="/">
-          <h3> 게시판 NavBar </h3>
+          <li> 게시판 NavBar </li>
         </Link>
+        <li className="username">{currentUser?.username}</li>
+        <div className="login_navbar">
+          {currentUser ? (
+            <li onClick={logout}>Logout</li>
+          ) : (
+            <li onClick={handleModal}>로그인</li>
+          )}
+        </div>
       </div>
-      <h5 className="login_navbar" onClick={handleModal}>
-        로그인
-      </h5>
       <Modal
         visible={submitmodal}
-        width="400"
-        height="360"
+        width="50%"
+        height="50%"
         effect="fadeInDown"
         onClickAway={handleModal}
       >
-        <div>
-          <form>
-            <div className="login_div">
-              <h4 className="acenter login_tit">로그인</h4>
-              <div className="login_input_div">
-                <p> ID </p>
-                <input
-                  type="text"
-                  placeholder="ID"
-                  name="username"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="login_input_div">
-                <p> Password </p>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  onChange={handleChange}
-                />
-              </div>
+        <div className="container">
+          <h1>SIGN IN</h1>
+          <ul class="links">
+            <li>
+              <a href="#" id="signin">
+                SIGN IN
+              </a>
+            </li>
+            <li>
+              <a href="#" id="signup">
+                SIGN UP /**기능 추가 예정 */
+              </a>
+            </li>
+          </ul>
 
-              <div className="submit_div">
-                <div>
-                  <input type="button" value="로그인" onClick={handleSubmit} />
-                </div>
-                <div>
-                  <input type="button" value="취소" onClick={handleModal} />
-                </div>
-                <div>
-                  <Link to="/register">
-                    <input type="button" value="회원가입 추후 제작 예정" />
-                  </Link>
-                </div>
-                {err && <p>{err}</p>}
-              </div>
+          <form action="" method="post">
+            <div className="first-input input__block first-input__block">
+              <input
+                type="email"
+                placeholder="Email"
+                className="input"
+                id="email"
+              />
             </div>
+            <div className="input__block">
+              <input
+                type="password"
+                placeholder="Password"
+                className="input"
+                id="password"
+              />
+            </div>
+            <div className="input__block">
+              <input
+                type="password"
+                placeholder="Repeat password"
+                className="input repeat__password"
+                id="repeat__password"
+              />
+            </div>
+            <button className="signin__btn">Sign in</button>
           </form>
+          <div className="separator">
+            <p>OR</p>
+          </div>
+          <button className="google__btn">
+            <i className="fa fa-google"></i>
+            Sign in with Google
+          </button>
+          <button className="github__btn">
+            <i className="fa fa-github"></i>
+            Sign in with GitHub
+          </button>
         </div>
       </Modal>
     </div>
