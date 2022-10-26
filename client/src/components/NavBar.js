@@ -57,33 +57,35 @@ function NavBar() {
       </div>
       <Modal
         visible={submitmodal}
-        width="50%"
+        width="40%"
         height="50%"
         effect="fadeInDown"
         onClickAway={handleModal}
       >
         <div className="container">
           <h1>SIGN IN</h1>
-          <ul class="links">
+          <ul className="links">
             <li>
-              <a href="#" id="signin">
+              {/* <a href="#" id="signin">
                 SIGN IN
-              </a>
+              </a> */}
             </li>
             <li>
-              <a href="#" id="signup">
-                SIGN UP /**기능 추가 예정 */
-              </a>
+              {/* <a href="#" id="signup">
+                SIGN UP 기능 추가 예정 
+              </a> */}
             </li>
           </ul>
 
           <form action="" method="post">
             <div className="first-input input__block first-input__block">
               <input
-                type="email"
-                placeholder="Email"
+                type="text"
+                placeholder="ID"
                 className="input"
                 id="email"
+                name="username"
+                onChange={handleChange}
               />
             </div>
             <div className="input__block">
@@ -92,6 +94,8 @@ function NavBar() {
                 placeholder="Password"
                 className="input"
                 id="password"
+                name="password"
+                onChange={handleChange}
               />
             </div>
             <div className="input__block">
@@ -102,7 +106,9 @@ function NavBar() {
                 id="repeat__password"
               />
             </div>
-            <button className="signin__btn">Sign in</button>
+            <button className="signin__btn" onClick={handleSubmit}>
+              Sign in
+            </button>
           </form>
           <div className="separator">
             <p>OR</p>

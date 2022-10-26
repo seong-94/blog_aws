@@ -6,10 +6,10 @@ import axios from "axios";
 
 function Write() {
   const state = useLocation().state;
-  const [value, setValue] = useState(state?.title || "");
-  const [title, setTitle] = useState(state?.desc || "");
-  const [file, setFile] = useState(null);
-  const [cat, setCat] = useState(state?.cat || "");
+  const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
+  // const [file, setFile] = useState(null);
+  const [cat, setCat] = useState("");
 
   const navigate = useNavigate();
 
@@ -58,16 +58,18 @@ function Write() {
             type="file"
             id="file"
             name=""
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={"(e) => setFile(e.target.files[0])"}
           />
           <label className="file" htmlFor="file">
-            업로드 이미지 추가 예정 이미지 미리 보기 도 추가 예정
+            업로드 이미지
+            <br></br>
+            추가 예정 이미지 미리 보기 도 추가 예정
           </label>
           <div className="buttons">
             <button onClick={handleClick}>업로드</button>
           </div>
         </div>
-        <div className="item">
+        {/* <div className="item">
           <h1>Category</h1>
           <div className="cat">
             <input
@@ -123,8 +125,8 @@ function Write() {
               onChange={(e) => setCat(e.target.value)}
             />
             <label htmlFor="mysql">Mysql</label>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </div>
     </div>
   );
