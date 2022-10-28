@@ -2,11 +2,8 @@ function Pagination({ total, limit, page, setPage }) {
   const numPages = Math.ceil(total / limit);
 
   return (
-    <>
-      <div
-        className="
-      Nav"
-      >
+    <div>
+      <div className="paging_div">
         <button onClick={() => setPage(page - 1)} disabled={page === 1}>
           &lt;
         </button>
@@ -14,6 +11,7 @@ function Pagination({ total, limit, page, setPage }) {
           .fill()
           .map((_, i) => (
             <button
+              className="page_num"
               key={i + 1}
               onClick={() => setPage(i + 1)}
               aria-current={page === i + 1 ? "page" : null}
@@ -25,7 +23,7 @@ function Pagination({ total, limit, page, setPage }) {
           &gt;
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -4,19 +4,29 @@ import Modal from "react-awesome-modal";
 import { AuthContext } from "../context/authContext";
 
 function NavBar() {
+  //turn on/off modal pages
   const [submitmodal, setSubitModal] = useState(false);
+  //send err on page
+  const [err, setError] = useState(null);
+  //convert signe up modal page
+  const [signup, setSignUp] = useState(false);
 
+  // login logout
   const { currentUser, logout } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
+  // get login data
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
   });
-  const [err, setError] = useState(null);
-
+  // get register data
+  const [loginInputs, setLoginInputs] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
-
-  const { login } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -32,17 +42,19 @@ function NavBar() {
       setError(err.response.data);
     }
   };
+
   const handleModal = () => {
     setSubitModal(!submitmodal);
   };
+
+  const handlesingUp = () => {
+    setSignUp(!signup);
+    console.log(signup);
+  };
+
   return (
     <div className="header_grid">
       <div className="acenter">
-        {currentUser ? (
-          <h5>
-            <Link to="/write"> 글쓰기 </Link>
-          </h5>
-        ) : null}
         <Link className="link_tit" to="/">
           <li> 게시판 NavBar </li>
         </Link>
@@ -62,66 +74,120 @@ function NavBar() {
         effect="fadeInDown"
         onClickAway={handleModal}
       >
-        <div className="container">
-          <h1>SIGN IN</h1>
-          <ul className="links">
-            <li>
-              {/* <a href="#" id="signin">
-                SIGN IN
-              </a> */}
-            </li>
-            <li>
-              {/* <a href="#" id="signup">
-                SIGN UP 기능 추가 예정 
-              </a> */}
-            </li>
-          </ul>
+        {signup ? (
+          <div className="container">
+            <h1>SIGN IN</h1>
+            <ul className="links">
+              <li>
+                <p className="signin" onClick={handlesingUp}>
+                  SIGN IN
+                </p>
+              </li>
+              <li>
+                <p className="signup" onClick={handlesingUp}>
+                  SIGN UP
+                </p>
+              </li>
+            </ul>
 
-          <form action="" method="post">
-            <div className="first-input input__block first-input__block">
-              <input
-                type="text"
-                placeholder="ID"
-                className="input"
-                id="email"
-                name="username"
-                onChange={handleChange}
-              />
+            <form method="post">
+              <div className="first-input input__block first-input__block">
+                <input
+                  type="text"
+                  placeholder="ID"
+                  className="input"
+                  id="email"
+                  name="username"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="input__block">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="input"
+                  id="password"
+                  name="password"
+                  onChange={handleChange}
+                />
+              </div>
+              <button className="signin__btn" onClick={handleSubmit}>
+                Sign in
+              </button>
+            </form>
+            <div className="separator">
+              <p>OR</p>
             </div>
-            <div className="input__block">
-              <input
-                type="password"
-                placeholder="Password"
-                className="input"
-                id="password"
-                name="password"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="input__block">
-              <input
-                type="password"
-                placeholder="Repeat password"
-                className="input repeat__password"
-                id="repeat__password"
-              />
-            </div>
-            <button className="signin__btn" onClick={handleSubmit}>
-              Sign in
+            <button className="google__btn">
+              <i className="fa fa-google"></i>
+              Sign in with Google
             </button>
-          </form>
-          <div className="separator">
-            <p>OR</p>
+            <button className="github__btn">
+              <i className="fa fa-github"></i>
+              Sign in with GitHub
+            </button>
           </div>
-          <button className="google__btn">
-            <i className="fa fa-google"></i>
-            Sign in with Google
-          </button>
-          <button className="github__btn">
-            <i className="fa fa-github"></i>
-            Sign in with GitHub
-          </button>
-        </div>
+        ) : (
+          <div className="container">
+            <h1>SIGN UP</h1>
+            <ul className="links">
+              <li>
+                <p className="signin" onClick={handlesingUp}>
+                  SIGN IN
+                </p>
+              </li>
+              <li>
+                <p className="signup" onClick={handlesingUp}>
+                  SIGN UP
+                </p>
+              </li>
+            </ul>
+
+            <form method="post">
+              <div className="first-input input__block first-input__block">
+                <input
+                  type="text"
+                  placeholder="ID"
+                  className="input"
+                  name="username"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="input__block">
+                <input
+                  type="email"
+                  placeholder="email"
+                  className="input"
+                  name="password"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="input__block">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="input"
+                  name="password"
+                  onChange={handleChange}
+                />
+              </div>
+              <button className="signin__btn" onClick={handleSubmit}>
+                Sign up
+              </button>
+            </form>
+            <div className="separator">
+              <p>OR</p>
+            </div>
+            <button className="google__btn">
+              <i className="fa fa-google"></i>
+              Sign in with Google
+            </button>
+            <button className="github__btn">
+              <i className="fa fa-github"></i>
+              Sign in with GitHub
+            </button>
+          </div>
+        )}
       </Modal>
     </div>
   );

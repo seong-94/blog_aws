@@ -1,11 +1,9 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
 import NavBar from "./components/NavBar";
-// import Paging from "./components/Paging";
 import Register from "./components/Register";
 import Single from "./components/Single";
 import Write from "./components/Write";
-
 import "./style.scss";
 
 const router = createBrowserRouter([
