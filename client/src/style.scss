@@ -233,6 +233,21 @@
     grid-template-columns: 19% 62% 19%;
     border-bottom: solid 1px #ababab;
   }
+  .home_list {
+    padding: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    min-height: 500px;
+  }
+  .home_list_tit {
+    border-bottom: solid 1px #ababab;
+    color: #ababab;
+  }
+
+  .home_list_grid {
+    display: grid;
+    grid-template-columns: 20% 55% 15% 15%;
+  }
 
   #home-left {
     border-right: solid 1px #aabbaa;
@@ -246,16 +261,6 @@
     margin-left: 20px;
     margin-right: 20px;
     min-height: 500px;
-  }
-
-  .list_tit {
-    border-bottom: solid 1px #ababab;
-    color: #ababab;
-  }
-
-  .list_grid {
-    display: grid;
-    grid-template-columns: 20% 55% 15% 15%;
   }
   .seperate {
     border-bottom: solid 1px #ababab;
@@ -287,8 +292,8 @@
   //Write
   .add {
     margin-top: 20px;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 19% 62% 19%;
     gap: 20px;
 
     .content {
@@ -363,11 +368,53 @@
 
   //pagination
 
-  .paging_div {
+  // .paging_div {
+  //   display: flex;
+  //   justify-content: center;
+  // }
+  .gr {
+    color: #808080;
+  }
+  .pagination {
     display: flex;
     justify-content: center;
+    margin-top: 15px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  ul.pagination li {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
   }
 
+  ul.pagination li a {
+    text-decoration: none;
+    color: #808080;
+    font-size: 1rem;
+  }
+  ul.pagination li.active a {
+    font-weight: 800;
+  }
+  ul.pagination li.active {
+    font-weight: 800;
+  }
+  ul.pagination li a:hover,
+  ul.pagination li a.active {
+    color: #808080;
+  }
+  .page-selection {
+    width: 48px;
+    height: 30px;
+    color: #808080;
+  }
   // serach
   .search_input {
     padding: 2px;
@@ -412,7 +459,6 @@
       }
 
       p {
-        display: flex;
         text-align: justify;
         line-height: 30px;
       }
@@ -460,5 +506,16 @@
         }
       }
     }
+  }
+  //List
+
+  .list_tit {
+    border-bottom: solid 1px #ababab;
+    color: #ababab;
+  }
+
+  .list_grid {
+    display: grid;
+    grid-template-columns: 20% 55% 15% 15%;
   }
 }

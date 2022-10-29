@@ -72,6 +72,68 @@ function Write() {
             <div className="buttons">
               <button onClick={handleClick}>업로드</button>
             </div>
+            <div className="buttons">
+              <button>임시 저장</button>
+              <button onClick={handleClick}>저장하기</button>
+            </div>
+          </div>
+          <div className="item">
+            <h1>Category</h1>
+            <div className="cat">
+              <input
+                type="radio"
+                checked={cat === "react"}
+                name="cat"
+                value="react"
+                id="react"
+                onChange={(e) => setCat(e.target.value)}
+              />
+              <label htmlFor="react">React</label>
+            </div>
+            <div className="cat">
+              <input
+                type="radio"
+                checked={cat === "javascript"}
+                name="cat"
+                value="javascript"
+                id="javascript"
+                onChange={(e) => setCat(e.target.value)}
+              />
+              <label htmlFor="javascript">Javascript</label>
+            </div>
+            <div className="cat">
+              <input
+                type="radio"
+                checked={cat === "nodejs"}
+                name="cat"
+                value="nodejs"
+                id="nodejs"
+                onChange={(e) => setCat(e.target.value)}
+              />
+              <label htmlFor="nodejs">Nodejs</label>
+            </div>
+            <div className="cat">
+              <input
+                type="radio"
+                checked={cat === "aws"}
+                name="cat"
+                value="aws"
+                id="aws"
+                onChange={(e) => setCat(e.target.value)}
+              />
+              <label htmlFor="aws">AWS</label>
+            </div>
+            <div className="cat">
+              <input
+                type="radio"
+                checked={cat === "mysql"}
+                name="cat"
+                value="mysql"
+                id="mysql"
+                onChange={(e) => setCat(e.target.value)}
+              />
+              <label htmlFor="mysql">Mysql</label>
+            </div>
           </div>
         </div>
       </div>
