@@ -2,9 +2,11 @@ import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
+import Edit from "../img/edit.png";
+import Delete from "../img/delete.png";
 import axios from "axios";
-
-function Single() {
+import moment from "moment";
+function Single({ username }) {
   const [post, setPost] = useState({});
 
   // const cat = useLocation().search;
@@ -42,24 +44,28 @@ function Single() {
   };
 
   return (
-    <div className="single">
-      <div className="content">
-        <div className="info">
-          <span>작성자 : {post.username}</span>
-          <p>날짜 : {post.date}</p>
-        </div>
-        {currentUser.username === post.username && (
-          <div className="edit">
-            <Link to={`/write?edit=2`} state={post}>
-              <span>글 고치기</span>
-            </Link>
-            <span onClick={handleDelete}>지우기 </span>
-          </div>
-        )}
-        <div className="post">
+    <div>
+      <div className="single">
+        <div className="single_left">카테고리</div>
+        <div className="content">
           <h1>{post.title}</h1>
-          <p>{getText(post.desc)}</p>
+          <div className="info">
+            <span>작성자 : {""}</span>
+            <p>날짜 : {moment(post.date).format("YYYY-MM-DD")}</p>
+          </div>
+          {currentUser.username === post.username && (
+            <div className="edit">
+              <Link to={`/write?edit=2`} state={post}>
+                <img src={Edit} alt="" />
+              </Link>
+              <img src={Delete} alt="" onClick={handleDelete} />
+            </div>
+          )}
+          <div className="post">
+            <p>{getText(post.desc)}</p>
+          </div>
         </div>
+        <div className="single_right">음... 뭐넣지</div>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-awesome-modal";
 import { AuthContext } from "../context/authContext";
-
+import axios from "axios";
 function NavBar() {
   //turn on/off modal pages
   const [submitmodal, setSubitModal] = useState(false);
@@ -21,7 +21,7 @@ function NavBar() {
     password: "",
   });
   // get register data
-  const [loginInputs, setLoginInputs] = useState({
+  const [registerInputs, setRegisterInputs] = useState({
     username: "",
     email: "",
     password: "",
@@ -30,6 +30,10 @@ function NavBar() {
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleRegisterChange = (e) => {
+    setRegisterInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
@@ -43,20 +47,28 @@ function NavBar() {
     }
   };
 
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("/auth/register", registerInputs);
+      navigate("/");
+    } catch (err) {
+      setError(err.response.data);
+    }
+  };
   const handleModal = () => {
     setSubitModal(!submitmodal);
   };
 
   const handlesingUp = () => {
     setSignUp(!signup);
-    console.log(signup);
   };
 
   return (
     <div className="header_grid">
       <div className="acenter">
         <Link className="link_tit" to="/">
-          <li> 게시판 NavBar </li>
+          <li> Seong Seok Board </li>
         </Link>
         <li className="username">{currentUser?.username}</li>
         <div className="login_navbar">
@@ -115,7 +127,7 @@ function NavBar() {
                 Sign in
               </button>
             </form>
-            <div className="separator">
+            {/* <div className="separator">
               <p>OR</p>
             </div>
             <button className="google__btn">
@@ -125,7 +137,7 @@ function NavBar() {
             <button className="github__btn">
               <i className="fa fa-github"></i>
               Sign in with GitHub
-            </button>
+            </button> */}
           </div>
         ) : (
           <div className="container">
@@ -147,35 +159,35 @@ function NavBar() {
               <div className="first-input input__block first-input__block">
                 <input
                   type="text"
-                  placeholder="ID"
+                  placeholder="username"
                   className="input"
                   name="username"
-                  onChange={handleChange}
+                  onChange={handleRegisterChange}
                 />
               </div>
               <div className="input__block">
                 <input
                   type="email"
                   placeholder="email"
+                  name="email"
                   className="input"
-                  name="password"
-                  onChange={handleChange}
+                  onChange={handleRegisterChange}
                 />
               </div>
               <div className="input__block">
                 <input
                   type="password"
-                  placeholder="Password"
-                  className="input"
+                  placeholder="password"
                   name="password"
-                  onChange={handleChange}
+                  className="input"
+                  onChange={handleRegisterChange}
                 />
               </div>
-              <button className="signin__btn" onClick={handleSubmit}>
+              <button className="signin__btn" onClick={handleRegisterSubmit}>
                 Sign up
               </button>
             </form>
-            <div className="separator">
+            {/* <div className="separator">
               <p>OR</p>
             </div>
             <button className="google__btn">
@@ -185,7 +197,7 @@ function NavBar() {
             <button className="github__btn">
               <i className="fa fa-github"></i>
               Sign in with GitHub
-            </button>
+            </button> */}
           </div>
         )}
       </Modal>

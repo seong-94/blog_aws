@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Paging from "./Paging";
+import moment from "moment";
 
 function List() {
   //get posts
@@ -70,36 +71,61 @@ function List() {
   };
 
   return (
-    <div className="List">
-      {currentPosts && posts.length > 0 ? (
-        currentPosts.map((post) => (
-          <div className="list_grid list_data" key={post.id}>
-            <Link className="link_title" to={`/post/${post.id}`}>
-              <h1>{post.title}</h1>
-            </Link>
-            <Link className="link_desc" to={`/post/${post.id}`}>
-              <div> {getText(post.desc)}</div>
-            </Link>
-            <div>{post.date}</div>
-            <div>조회수</div>
+    <div id="board-list">
+      <div></div>
+      <div className="container">
+        <table className="board-table">
+          <thead>
+            <tr>
+              <th scope="col" className="th-num">
+                번호
+              </th>
+              <th scope="col" className="th-title">
+                제목
+              </th>
+              <th scope="col" className="th-date">
+                등록일
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {currentPosts && posts.length > 0 ? (
+              currentPosts.map((post) => (
+                <tr key={post.id}>
+                  <td>{post.id}</td>
+                  <th>
+                    <Link to={`/post/${post.id}`}>{post.title}</Link>
+                  </th>
+                  <td>{moment(post.date).format("YYYY-MM-DD")}</td>
+                </tr>
+              ))
+            ) : (
+              <div></div>
+            )}
+          </tbody>
+        </table>
+        <Paging page={currentpage} count={count} setPage={setPage} />
+        <div id="board-search">
+          <div className="container">
+            <div className="search-window">
+              <form onSubmit={(e) => onSearch(e)}>
+                <input
+                  id="search"
+                  type="text"
+                  maxLength="20"
+                  value={search}
+                  className="search_input"
+                  placeholder="검색어를 입력해주세요."
+                  onChange={onChangeSearch}
+                />
+                <button type="submit" value="검색" className="btn btn-dark">
+                  검색
+                </button>
+              </form>
+            </div>
           </div>
-        ))
-      ) : (
-        <div>없음 </div>
-      )}
-      <Paging page={currentpage} count={count} setPage={setPage} />
-      <div>
-        <form onSubmit={(e) => onSearch(e)}>
-          <input
-            type="text"
-            maxLength="20"
-            value={search}
-            className="search_input"
-            placeholder="검색어를 입력해주세요."
-            onChange={onChangeSearch}
-          />
-          <input type="submit" value="검색" className="serach_submit" />
-        </form>
+        </div>
       </div>
     </div>
   );

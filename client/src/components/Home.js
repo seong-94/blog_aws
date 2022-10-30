@@ -11,15 +11,8 @@ function Home() {
 
   return (
     <div className="home">
-      <div id="home-left"></div>
-
-      <div className="home_list">
-        <div className="home_list_grid home_list_tit">
-          <div>제목</div>
-          <div>내용</div>
-          <div>날짜</div>
-          <div>조회수</div>
-        </div>
+      <div className="home-left"></div>
+      <div>
         <List />
 
         {/* <Search /> */}
@@ -30,7 +23,7 @@ function Home() {
         ) : null}
       </div>
 
-      <div id="home-right"></div>
+      <div className="home-right"></div>
     </div>
   );
 }

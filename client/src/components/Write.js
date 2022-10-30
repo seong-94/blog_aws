@@ -7,11 +7,11 @@ import moment from "moment";
 
 function Write() {
   const state = useLocation().state;
-  const [value, setValue] = useState("");
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(state?.title || "");
+  const [value, setValue] = useState(state?.desc || "");
   // const [file, setFile] = useState(null);
-  const [cat, setCat] = useState("");
-
+  const [cat, setCat] = useState(state?.cat || "");
+  // console.log(state.title);
   const navigate = useNavigate();
 
   const handleClick = async (e) => {
@@ -28,9 +28,10 @@ function Write() {
             title,
             desc: value,
             cat,
-            date: moment(Date.now()).format("YYYY-MM-DDTHH"),
+            date: moment(Date.now()).format("YYYY-MM-DD"),
           });
       navigate("/");
+      console.log(moment(Date.now()).format("YYYY-MM-DD"));
     } catch (err) {
       console.log(err);
     }
@@ -38,11 +39,12 @@ function Write() {
 
   return (
     <div className="add">
-      <div className="write-left">카테고리 들어갈 예정</div>
+      <div className="write-left">카테고리 컴포넌트</div>
       <div className="content">
         <input
           type="text"
           placeholder="Title"
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <div className="editorContainer">
@@ -62,7 +64,7 @@ function Write() {
               type="file"
               id="file"
               name=""
-              onChange={"(e) => setFile(e.target.files[0])"}
+              // onChange={"(e) => setFile(e.target.files[0])"}
             />
             <label className="file" htmlFor="file">
               업로드 이미지
@@ -73,7 +75,6 @@ function Write() {
               <button onClick={handleClick}>업로드</button>
             </div>
             <div className="buttons">
-              <button>임시 저장</button>
               <button onClick={handleClick}>저장하기</button>
             </div>
           </div>
