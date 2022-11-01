@@ -4,6 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import moment from "moment";
+import Category from "./Category";
 
 function Write() {
   const state = useLocation().state;
@@ -11,7 +12,6 @@ function Write() {
   const [value, setValue] = useState(state?.desc || "");
   // const [file, setFile] = useState(null);
   const [cat, setCat] = useState(state?.cat || "");
-  // console.log(state.title);
   const navigate = useNavigate();
 
   const handleClick = async (e) => {
@@ -31,7 +31,6 @@ function Write() {
             date: moment(Date.now()).format("YYYY-MM-DD"),
           });
       navigate("/");
-      console.log(moment(Date.now()).format("YYYY-MM-DD"));
     } catch (err) {
       console.log(err);
     }
@@ -39,7 +38,9 @@ function Write() {
 
   return (
     <div className="add">
-      <div className="write-left">카테고리 컴포넌트</div>
+      <div className="write-left">
+        <Category />
+      </div>
       <div className="content">
         <input
           type="text"

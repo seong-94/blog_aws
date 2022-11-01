@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Paging from "./Paging";
 import moment from "moment";
 
@@ -8,6 +8,8 @@ function List() {
   //get posts
   const [posts, setPosts] = useState([]);
 
+  //search for posts
+  const [search, setSearch] = useState("");
   //pagination
   const [count, setCount] = useState(0); //아이템 총 개수
   const [currentpage, setCurrentpage] = useState(1); //현재페이지
@@ -15,6 +17,8 @@ function List() {
   const [indexOfLastPost, setIndexOfLastPost] = useState(0);
   const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
   const [currentPosts, setCurrentPosts] = useState(0);
+
+  const cat = useLocation().search;
 
   const setPage = (e) => {
     setCurrentpage(e);
@@ -24,14 +28,14 @@ function List() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/posts`);
+        const res = await axios.get(`/posts${cat}`);
         setPosts(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchData();
-  }, []);
+  }, [cat]);
 
   useEffect(() => {
     setCount(posts.length);
@@ -39,14 +43,6 @@ function List() {
     setIndexOfFirstPost(indexOfLastPost - postPerPage);
     setCurrentPosts(posts.slice(indexOfFirstPost, indexOfLastPost));
   }, [currentpage, indexOfFirstPost, indexOfLastPost, posts, postPerPage]);
-
-  // delete html tag(react quill bug)
-  const getText = (html) => {
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    return doc.body.textContent;
-  };
-
-  const [search, setSearch] = useState("");
 
   const onChangeSearch = (e) => {
     e.preventDefault();
@@ -72,7 +68,6 @@ function List() {
 
   return (
     <div id="board-list">
-      <div></div>
       <div className="container">
         <table className="board-table">
           <thead>
@@ -83,6 +78,9 @@ function List() {
               <th scope="col" className="th-title">
                 제목
               </th>
+              {/* <th scope="col" className="th-user">
+                작성자
+              </th> */}
               <th scope="col" className="th-date">
                 등록일
               </th>
@@ -97,11 +95,12 @@ function List() {
                   <th>
                     <Link to={`/post/${post.id}`}>{post.title}</Link>
                   </th>
+                  {/* <td>{post.postusername}</td> */}
                   <td>{moment(post.date).format("YYYY-MM-DD")}</td>
                 </tr>
               ))
             ) : (
-              <div></div>
+              <></>
             )}
           </tbody>
         </table>

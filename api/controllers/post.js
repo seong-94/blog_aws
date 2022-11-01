@@ -15,7 +15,7 @@ export const getPosts = function (req, res) {
 
 export const getPost = function (req, res) {
   const q =
-    "SELECT p.id, `username`, `title`, `desc`, `date` FROM users u JOIN posts p ON u.id = p.uid WHERE p.id = ? ";
+    "SELECT p.id, `username`, `title`,`cat`, `desc`, `date` FROM users u JOIN posts p ON u.id = p.uid WHERE p.id = ? ";
 
   db.query(q, [req.params.id], (err, data) => {
     if (err) return res.status(500).json(err);
@@ -29,12 +29,12 @@ export const addPost = function (req, res) {
   if (!token) return res.status(401).json("Not authenticated!");
 
   jwt.verify(token, "jwtkey", (err, userInfo) => {
-    console.log("eeeee", err);
     if (err) {
       return res.status(403).json("Token is not valid!");
     }
 
-    const q = "INSERT INTO posts(`title`, `desc`,  `date`,`uid`) VALUES (?)";
+    const q =
+      "INSERT INTO posts(`title`, `desc`, `cat`,`date`,`uid`) VALUES (?)";
 
     const values = [
       req.body.title,

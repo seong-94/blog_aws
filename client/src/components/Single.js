@@ -6,16 +6,18 @@ import Edit from "../img/edit.png";
 import Delete from "../img/delete.png";
 import axios from "axios";
 import moment from "moment";
-function Single({ username }) {
+import Category from "./Category";
+import List from "./List";
+function Single() {
   const [post, setPost] = useState({});
 
   // const cat = useLocation().search;
   const location = useLocation();
   const navigate = useNavigate();
-
   const postId = location.pathname.split("/")[2];
 
   const { currentUser } = useContext(AuthContext);
+  // console.log(currentUser.username, post.username);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,26 +48,44 @@ function Single({ username }) {
   return (
     <div>
       <div className="single">
-        <div className="single_left">카테고리</div>
+        <div className="single_left">
+          <Category />
+        </div>
+
         <div className="content">
-          <h1>{post.title}</h1>
-          <div className="info">
-            <span>작성자 : {""}</span>
-            <p>날짜 : {moment(post.date).format("YYYY-MM-DD")}</p>
-          </div>
-          {currentUser.username === post.username && (
-            <div className="edit">
-              <Link to={`/write?edit=2`} state={post}>
-                <img src={Edit} alt="" />
-              </Link>
-              <img src={Delete} alt="" onClick={handleDelete} />
+          <div className="wrap_inner_view">
+            <div className="view_post">
+              <div className="post_head">
+                <div className="post_title">
+                  <h1>{post.title}</h1>
+                </div>
+                <div className="post_authorandtype">
+                  <p>작성자 : {post.username}</p>
+                  <p>날짜 : {moment(post.date).format("YYYY-MM-DD")}</p>
+                  <p>게시판 : {post.cat}</p>
+                  {/* <div className="post_views">조회수</div> */}
+                  {(currentUser ? currentUser.username : "") ===
+                    post.username && (
+                    <div className="edit">
+                      <Link to={`/write?edit=2`} state={post}>
+                        <img src={Edit} alt="" />
+                      </Link>
+                      <img src={Delete} alt="" onClick={handleDelete} />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="post_body">
+                <div dangerouslySetInnerHTML={{ __html: post.desc }} />
+              </div>
+              {/* <div className="post_thumbuparea">추천</div> */}
             </div>
-          )}
-          <div className="post">
-            <p>{getText(post.desc)}</p>
+            <div>
+              {/* <List /> */}
+              리스트 추가해서 css 조정 예정
+            </div>
           </div>
         </div>
-        <div className="single_right">음... 뭐넣지</div>
       </div>
     </div>
   );
