@@ -1,6 +1,5 @@
 import { db } from "../db.js";
 import jwt from "jsonwebtoken";
-import { query } from "express";
 
 export const getPosts = function (req, res) {
   const q = req.query.cat
@@ -8,19 +7,20 @@ export const getPosts = function (req, res) {
     : `SELECT * FROM posts ORDER BY id DESC `;
   db.query(q, [req.query.cat], (err, data) => {
     if (err) return res.status(500).send(err);
-
     return res.status(200).json(data);
   });
 };
 
 export const getPost = function (req, res) {
   const q =
-    "SELECT p.id, `username`, `title`,`cat`, `desc`, `date` FROM users u JOIN posts p ON u.id = p.uid WHERE p.id = ? ";
-
+    "SELECT p.id, `username`, `title`,`cat`, `desc`,`view`, `date` FROM users u JOIN posts p ON u.id = p.uid WHERE p.id = ? ";
+  const qv = "UPDATE posts SET view = view + 1 WHERE id = ? ";
   db.query(q, [req.params.id], (err, data) => {
-    if (err) return res.status(500).json(err);
+    db.query(qv, [req.params.id], function () {
+      if (err) return res.status(500).json(err);
 
-    return res.status(200).json(data[0]);
+      return res.status(200).json(data[0]);
+    });
   });
 };
 

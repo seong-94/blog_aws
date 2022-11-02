@@ -11,13 +11,12 @@ import List from "./List";
 function Single() {
   const [post, setPost] = useState({});
 
-  // const cat = useLocation().search;
+  const cat = useLocation().search;
   const location = useLocation();
   const navigate = useNavigate();
   const postId = location.pathname.split("/")[2];
-
+  const [setList] = useState(5);
   const { currentUser } = useContext(AuthContext);
-  // console.log(currentUser.username, post.username);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +43,7 @@ function Single() {
       console.log(err);
     }
   };
-
+  console.log(post);
   return (
     <div>
       <div className="single">
@@ -60,19 +59,21 @@ function Single() {
                   <h1>{post.title}</h1>
                 </div>
                 <div className="post_authorandtype">
-                  <p>작성자 : {post.username}</p>
-                  <p>날짜 : {moment(post.date).format("YYYY-MM-DD")}</p>
-                  <p>게시판 : {post.cat}</p>
-                  {/* <div className="post_views">조회수</div> */}
-                  {(currentUser ? currentUser.username : "") ===
-                    post.username && (
-                    <div className="edit">
-                      <Link to={`/write?edit=2`} state={post}>
-                        <img src={Edit} alt="" />
-                      </Link>
-                      <img src={Delete} alt="" onClick={handleDelete} />
-                    </div>
-                  )}
+                  <ul>
+                    <li>작성자 : {post.username}</li>
+                    <li>날짜 : {moment(post.date).format("YYYY-MM-DD")}</li>
+                    <li>{post.cat ? `게시판 :  ${post.cat}` : ""}</li>
+                    <li>조회수 : {post.view}</li>
+                    {(currentUser ? currentUser.username : "") ===
+                      post.username && (
+                      <div className="edit">
+                        <Link to={`/write?edit=2`} state={post}>
+                          <img src={Edit} alt="" />
+                        </Link>
+                        <img src={Delete} alt="" onClick={handleDelete} />
+                      </div>
+                    )}
+                  </ul>
                 </div>
               </div>
               <div className="post_body">
@@ -81,8 +82,7 @@ function Single() {
               {/* <div className="post_thumbuparea">추천</div> */}
             </div>
             <div>
-              {/* <List /> */}
-              리스트 추가해서 css 조정 예정
+              <List listPerPage={setList} />
             </div>
           </div>
         </div>

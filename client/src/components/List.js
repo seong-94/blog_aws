@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import Paging from "./Paging";
 import moment from "moment";
 
-function List() {
+function List({ listPerPage }) {
   //get posts
   const [posts, setPosts] = useState([]);
 
@@ -13,7 +13,7 @@ function List() {
   //pagination
   const [count, setCount] = useState(0); //아이템 총 개수
   const [currentpage, setCurrentpage] = useState(1); //현재페이지
-  const [postPerPage] = useState(10); //페이지당 아이템 개수
+  const [postPerPage] = useState(listPerPage); //페이지당 아이템 개수
   const [indexOfLastPost, setIndexOfLastPost] = useState(0);
   const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
   const [currentPosts, setCurrentPosts] = useState(0);
@@ -42,7 +42,7 @@ function List() {
     setIndexOfLastPost(currentpage * postPerPage);
     setIndexOfFirstPost(indexOfLastPost - postPerPage);
     setCurrentPosts(posts.slice(indexOfFirstPost, indexOfLastPost));
-  }, [currentpage, indexOfFirstPost, indexOfLastPost, posts, postPerPage]);
+  }, [currentpage, indexOfFirstPost, indexOfLastPost, posts, cat, postPerPage]);
 
   const onChangeSearch = (e) => {
     e.preventDefault();
@@ -61,13 +61,13 @@ function List() {
       const filerData = posts.filter((row) => row.title.includes(search));
       setCurrentPosts(filerData.slice(indexOfFirstPost, indexOfLastPost));
       setCurrentpage(1);
-      //   console.log(search);
+      // console.log(filerData);
     }
     setSearch("");
   };
 
   return (
-    <div id="board-list">
+    <div className="board-list">
       <div className="container">
         <table className="board-table">
           <thead>
@@ -81,6 +81,9 @@ function List() {
               {/* <th scope="col" className="th-user">
                 작성자
               </th> */}
+              <th scope="col" className="th-view">
+                조회수
+              </th>
               <th scope="col" className="th-date">
                 등록일
               </th>
@@ -96,6 +99,7 @@ function List() {
                     <Link to={`/post/${post.id}`}>{post.title}</Link>
                   </th>
                   {/* <td>{post.postusername}</td> */}
+                  <td>{post.view}</td>
                   <td>{moment(post.date).format("YYYY-MM-DD")}</td>
                 </tr>
               ))

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
@@ -11,16 +11,15 @@ import NavBar from "./NavBar";
 
 function Home() {
   const { currentUser } = useContext(AuthContext);
-
+  const [listPerPage] = useState(10);
   return (
     <div className="home">
       <div className="home-left">
         <Category />
       </div>
-      <div>
+      <div className="home_middle">
         <NavBar />
-        <List />
-
+        <List listPerPage={listPerPage} />
         {currentUser ? (
           <button className="write">
             <Link to="/write"> 글쓰기 </Link>
