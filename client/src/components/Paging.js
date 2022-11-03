@@ -5,8 +5,8 @@ function Paging({ page, count, setPage }) {
     <Pagination
       activePage={page}
       itemsCountPerPage={10}
-      totalItemsCount={count}
-      pageRangeDisplayed={5}
+      totalItemsCount={count ? count : 0}
+      pageRangeDisplayed={10}
       prevPageText={"‹"}
       nextPageText={"›"}
       onChange={setPage}

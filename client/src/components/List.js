@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Paging from "./Paging";
 import moment from "moment";
+import { AuthContext } from "../context/authContext";
 
 function List({ listPerPage }) {
   //get posts
@@ -17,12 +18,9 @@ function List({ listPerPage }) {
   const [indexOfLastPost, setIndexOfLastPost] = useState(0);
   const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
   const [currentPosts, setCurrentPosts] = useState(0);
+  const { currentUser } = useContext(AuthContext);
 
   const cat = useLocation().search;
-
-  const setPage = (e) => {
-    setCurrentpage(e);
-  };
 
   // get posts data
   useEffect(() => {
@@ -36,14 +34,6 @@ function List({ listPerPage }) {
     };
     fetchData();
   }, [cat]);
-
-  useEffect(() => {
-    setCount(posts.length);
-    setIndexOfLastPost(currentpage * postPerPage);
-    setIndexOfFirstPost(indexOfLastPost - postPerPage);
-    setCurrentPosts(posts.slice(indexOfFirstPost, indexOfLastPost));
-  }, [currentpage, indexOfFirstPost, indexOfLastPost, posts, cat, postPerPage]);
-
   const onChangeSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
@@ -61,9 +51,19 @@ function List({ listPerPage }) {
       const filerData = posts.filter((row) => row.title.includes(search));
       setCurrentPosts(filerData.slice(indexOfFirstPost, indexOfLastPost));
       setCurrentpage(1);
-      // console.log(filerData);
     }
     setSearch("");
+  };
+
+  useEffect(() => {
+    setCount(posts.length);
+    setIndexOfLastPost(currentpage * postPerPage);
+    setIndexOfFirstPost(indexOfLastPost - postPerPage);
+    setCurrentPosts(posts.slice(indexOfFirstPost, indexOfLastPost));
+  }, [currentpage, indexOfFirstPost, indexOfLastPost, posts, cat, postPerPage]);
+
+  const setPage = (e) => {
+    setCurrentpage(e);
   };
 
   return (
@@ -126,6 +126,11 @@ function List({ listPerPage }) {
                   검색
                 </button>
               </form>
+              {currentUser ? (
+                <button className="write">
+                  <Link to="/write"> 글쓰기 </Link>
+                </button>
+              ) : null}
             </div>
           </div>
         </div>

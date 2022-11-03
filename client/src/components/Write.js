@@ -5,6 +5,8 @@ import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import moment from "moment";
 import Category from "./Category";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 function Write() {
   const state = useLocation().state;
@@ -49,11 +51,26 @@ function Write() {
           onChange={(e) => setTitle(e.target.value)}
         />
         <div className="editorContainer">
-          <ReactQuill
+          {/* <ReactQuill
             className="editor"
             theme="snow"
             value={value}
             onChange={setValue}
+          /> */}
+          <CKEditor
+            className="editor"
+            editor={ClassicEditor}
+            config={{
+              placeholder: "내용을 입력하세요.",
+            }}
+            data={value}
+            onReady={(editor) => {}}
+            onChange={(event, editor) => {
+              const desc = editor.getData();
+              setValue(desc);
+            }}
+            onBlur={(event, editor) => {}}
+            onFocus={(event, editor) => {}}
           />
         </div>
       </div>

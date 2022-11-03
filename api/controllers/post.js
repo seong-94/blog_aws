@@ -45,7 +45,10 @@ export const addPost = function (req, res) {
     ];
 
     db.query(q, [values], (err, data) => {
-      if (err) return res.status(500).json(err);
+      if (err) {
+        console.log("err", err);
+        return res.status(500).json(err);
+      }
       return res.json("Post has been created.");
     });
   });
@@ -74,6 +77,7 @@ export const updatePost = function (req, res) {
     if (err) return res.status(403).json("Token is not valid!");
 
     const postId = req.params.id;
+    // console.log("err", err);
     const q =
       "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
 

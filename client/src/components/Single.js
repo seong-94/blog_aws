@@ -11,7 +11,8 @@ import List from "./List";
 function Single() {
   const [post, setPost] = useState({});
 
-  const cat = useLocation().search;
+  // const cat = useLocation().search;
+
   const location = useLocation();
   const navigate = useNavigate();
   const postId = location.pathname.split("/")[2];
@@ -30,10 +31,10 @@ function Single() {
     fetchData();
   }, [postId]);
 
-  const getText = (html) => {
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    return doc.body.textContent;
-  };
+  // const getText = (html) => {
+  //   const doc = new DOMParser().parseFromString(html, "text/html");
+  //   return doc.body.textContent;
+  // };
 
   const handleDelete = async () => {
     try {
@@ -43,7 +44,6 @@ function Single() {
       console.log(err);
     }
   };
-  console.log(post);
   return (
     <div>
       <div className="single">
@@ -81,7 +81,7 @@ function Single() {
               </div>
               {/* <div className="post_thumbuparea">추천</div> */}
             </div>
-            <div>
+            <div className="list_div">
               <List listPerPage={setList} />
             </div>
           </div>
