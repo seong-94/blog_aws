@@ -8,6 +8,7 @@ import axios from "axios";
 import moment from "moment";
 import Category from "./Category";
 import List from "./List";
+import styles from "./Single.module.scss";
 function Single() {
   const [post, setPost] = useState({});
 
@@ -31,11 +32,6 @@ function Single() {
     fetchData();
   }, [postId]);
 
-  // const getText = (html) => {
-  //   const doc = new DOMParser().parseFromString(html, "text/html");
-  //   return doc.body.textContent;
-  // };
-
   const handleDelete = async () => {
     try {
       await axios.delete(`/posts/${postId}`);
@@ -46,27 +42,26 @@ function Single() {
   };
   return (
     <div>
-      <div className="single">
-        <div className="single_left">
+      <div className={styles.single}>
+        <div className={styles.single_left}>
           <Category />
         </div>
 
-        <div className="content">
-          <div className="wrap_inner_view">
-            <div className="view_post">
-              <div className="post_head">
-                <div className="post_title">
+        <div className={styles.content}>
+          <div className={styles.wrap_inner_view}>
+            <div className={styles.view_post}>
+              <div className={styles.post_head}>
+                <div className={styles.post_title}>
                   <h1>{post.title}</h1>
                 </div>
-                <div className="post_authorandtype">
+                <div className={styles.post_authorandtype}>
                   <ul>
                     <li>작성자 : {post.username}</li>
                     <li>날짜 : {moment(post.date).format("YYYY-MM-DD")}</li>
                     <li>{post.cat ? `게시판 :  ${post.cat}` : ""}</li>
                     <li>조회수 : {post.view}</li>
-                    {(currentUser ? currentUser.username : "") ===
-                      post.username && (
-                      <div className="edit">
+                    {(currentUser ? currentUser.username : "") === post.username && (
+                      <div className={styles.edit}>
                         <Link to={`/write?edit=2`} state={post}>
                           <img src={Edit} alt="" />
                         </Link>
@@ -76,12 +71,12 @@ function Single() {
                   </ul>
                 </div>
               </div>
-              <div className="post_body">
+              <div className={styles.post_body}>
                 <div dangerouslySetInnerHTML={{ __html: post.desc }} />
               </div>
               {/* <div className="post_thumbuparea">추천</div> */}
             </div>
-            <div className="list_div">
+            <div className={styles.list_div}>
               <List listPerPage={setList} />
             </div>
           </div>

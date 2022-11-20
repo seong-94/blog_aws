@@ -1,24 +1,12 @@
 import React, { useState } from "react";
-import Category from "./Category";
-
 import List from "./List";
-import NavBar from "./NavBar";
-
-// import Paging from "./Pagination";
+import styles from "./Home.module.scss";
 
 function Home() {
   const [listPerPage] = useState(10);
   return (
-    <div className="home">
-      <div className="home-left">
-        <Category />
-      </div>
-      <div className="home_middle">
-        <NavBar />
-        <List listPerPage={listPerPage} />
-      </div>
-
-      <div className="home-right">right side (ad or side menu)</div>
+    <div className={styles.home}>
+      <List listPerPage={listPerPage} />
     </div>
   );
 }

@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+//routers
 import { useLocation, useNavigate } from "react-router-dom";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+//hooks
+import React, { useState } from "react";
+//axios
 import axios from "axios";
+
+//time
 import moment from "moment";
-import Category from "./Category";
+
+// editor
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+//scss
+import styles from "./Write.module.scss";
 
 function Write() {
   const state = useLocation().state;
   const [title, setTitle] = useState(state?.title || "");
   const [value, setValue] = useState(state?.desc || "");
   // const [file, setFile] = useState(null);
-  const [cat, setCat] = useState(state?.cat || "");
+  const [cat, setCat] = useState(state?.cat || "react");
   const navigate = useNavigate();
 
   const handleClick = async (e) => {
@@ -39,26 +45,79 @@ function Write() {
   };
 
   return (
-    <div className="add">
-      <div className="write-left">
-        <Category />
-      </div>
-      <div className="content">
+    <div className={styles.add}>
+      <div className={styles.content}>
         <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <div className="editorContainer">
-          {/* <ReactQuill
-            className="editor"
-            theme="snow"
-            value={value}
-            onChange={setValue}
-          /> */}
+        <div className={styles.item}>
+          <h1>Category</h1>
+          <div className="cat">
+            <ul>
+              <li>
+                <input
+                  type="radio"
+                  checked={cat === "react"}
+                  name="cat"
+                  value="react"
+                  id="react"
+                  onChange={(e) => setCat(e.target.value)}
+                />
+                <label htmlFor="react">React</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  checked={cat === "javascript"}
+                  name="cat"
+                  value="javascript"
+                  id="javascript"
+                  onChange={(e) => setCat(e.target.value)}
+                />
+                <label htmlFor="javascript">Javascript</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  checked={cat === "nodejs"}
+                  name="cat"
+                  value="nodejs"
+                  id="nodejs"
+                  onChange={(e) => setCat(e.target.value)}
+                />
+                <label htmlFor="nodejs">Nodejs</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  checked={cat === "aws"}
+                  name="cat"
+                  value="aws"
+                  id="aws"
+                  onChange={(e) => setCat(e.target.value)}
+                />
+                <label htmlFor="aws">AWS</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  checked={cat === "mysql"}
+                  name="cat"
+                  value="mysql"
+                  id="mysql"
+                  onChange={(e) => setCat(e.target.value)}
+                />
+                <label htmlFor="mysql">Mysql</label>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className={styles.editorContainer}>
           <CKEditor
-            className="editor"
+            className={styles.editor}
             editor={ClassicEditor}
             config={{
               placeholder: "내용을 입력하세요.",
@@ -74,87 +133,14 @@ function Write() {
           />
         </div>
       </div>
-      <div className="menu">
-        <div className="write-rigth">
-          <div className="item">
-            <input
-              style={{ display: "none" }}
-              type="file"
-              id="file"
-              name=""
-              // onChange={"(e) => setFile(e.target.files[0])"}
-            />
-            <label className="file" htmlFor="file">
-              업로드 이미지
-              <br></br>
-              추가 예정 이미지 미리 보기 도 추가 예정
-            </label>
-            <div className="buttons">
-              <button onClick={handleClick}>업로드</button>
-            </div>
-            <div className="buttons">
-              <button onClick={handleClick}>저장하기</button>
-            </div>
-          </div>
-          <div className="item">
-            <h1>Category</h1>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "react"}
-                name="cat"
-                value="react"
-                id="react"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="react">React</label>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "javascript"}
-                name="cat"
-                value="javascript"
-                id="javascript"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="javascript">Javascript</label>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "nodejs"}
-                name="cat"
-                value="nodejs"
-                id="nodejs"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="nodejs">Nodejs</label>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "aws"}
-                name="cat"
-                value="aws"
-                id="aws"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="aws">AWS</label>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "mysql"}
-                name="cat"
-                value="mysql"
-                id="mysql"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="mysql">Mysql</label>
-            </div>
-          </div>
-        </div>
+      <div className={styles.buttons}>
+        <button onClick={handleClick}>업로드</button>
+      </div>
+      <div className={styles.buttons}>
+        <button onClick={handleClick}>저장하기</button>
+      </div>
+      <div className={styles.menu}>
+        <div className={styles.write_rigth}></div>
       </div>
     </div>
   );

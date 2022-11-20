@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 import Paging from "./Paging";
 import moment from "moment";
-import { AuthContext } from "../context/authContext";
+import styles from "./List.module.scss";
 
 function List({ listPerPage }) {
   //get posts
@@ -67,24 +68,24 @@ function List({ listPerPage }) {
   };
 
   return (
-    <div className="board-list">
-      <div className="container">
-        <table className="board-table">
+    <div className={styles.board_list}>
+      <div className={styles.container}>
+        <table className={styles.board_table}>
           <thead>
             <tr>
-              <th scope="col" className="th-num">
+              <th scope="col" className={styles.th_num}>
                 번호
               </th>
-              <th scope="col" className="th-title">
+              <th scope="col" className={styles.th_title}>
                 제목
               </th>
               {/* <th scope="col" className="th-user">
                 작성자
               </th> */}
-              <th scope="col" className="th-view">
+              <th scope="col" className={styles.th_view}>
                 조회수
               </th>
-              <th scope="col" className="th-date">
+              <th scope="col" className={styles.th_date}>
                 등록일
               </th>
             </tr>
@@ -109,25 +110,25 @@ function List({ listPerPage }) {
           </tbody>
         </table>
         <Paging page={currentpage} count={count} setPage={setPage} />
-        <div id="board-search">
-          <div className="container">
-            <div className="search-window">
+        <div id={styles.board_search}>
+          <div className={styles.container}>
+            <div className={styles.search_window}>
               <form onSubmit={(e) => onSearch(e)}>
                 <input
-                  id="search"
+                  id={styles.search}
                   type="text"
                   maxLength="20"
                   value={search}
-                  className="search_input"
+                  className={styles.search_input}
                   placeholder="검색어를 입력해주세요."
                   onChange={onChangeSearch}
                 />
-                <button type="submit" value="검색" className="btn btn-dark">
+                <button type="submit" value="검색" className={`${styles.btn} ${styles.btn_dark}`}>
                   검색
                 </button>
               </form>
               {currentUser ? (
-                <button className="write">
+                <button className={styles.write}>
                   <Link to="/write"> 글쓰기 </Link>
                 </button>
               ) : null}

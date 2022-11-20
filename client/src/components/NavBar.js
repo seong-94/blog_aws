@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-awesome-modal";
 import { AuthContext } from "../context/authContext";
 import axios from "axios";
+import styles from "./Navbar.module.scss";
 function NavBar() {
   //turn on/off modal pages
   const [submitmodal, setSubitModal] = useState(false);
@@ -65,18 +66,14 @@ function NavBar() {
   };
 
   return (
-    <div className="header_grid">
-      <div className="acenter">
-        <Link className="link_tit" to="/">
+    <div className={styles.header_grid}>
+      <div className={styles.acenter}>
+        <Link className={styles.link_tit} to="/">
           <li> Seong Seok Board </li>
         </Link>
-        <li className="username">{currentUser?.username}</li>
-        <div className="login_navbar">
-          {currentUser ? (
-            <li onClick={logout}>Logout</li>
-          ) : (
-            <li onClick={handleModal}>로그인</li>
-          )}
+        <li className={styles.username}>{currentUser?.username}</li>
+        <div className={styles.login_navbar}>
+          {currentUser ? <li onClick={logout}>Logout</li> : <li onClick={handleModal}>로그인</li>}
         </div>
       </div>
       <Modal
@@ -87,27 +84,29 @@ function NavBar() {
         onClickAway={handleModal}
       >
         {signup ? (
-          <div className="container">
+          <div className={styles.container}>
             <h1>SIGN IN</h1>
-            <ul className="links">
+            <ul className={styles.links}>
               <li>
-                <p className="signin" onClick={handlesingUp}>
+                <p className={styles.signin} onClick={handlesingUp}>
                   SIGN IN
                 </p>
               </li>
               <li>
-                <p className="signup" onClick={handlesingUp}>
+                <p className={styles.signup} onClick={handlesingUp}>
                   SIGN UP
                 </p>
               </li>
             </ul>
 
             <form method="post">
-              <div className="first-input input__block first-input__block">
+              <div
+                className={`${styles.firs_input} ${styles.input__block} ${styles.first_input__block}`}
+              >
                 <input
                   type="text"
                   placeholder="ID"
-                  className="input"
+                  className={styles.input}
                   id="email"
                   name="username"
                   onChange={handleChange}
@@ -117,13 +116,13 @@ function NavBar() {
                 <input
                   type="password"
                   placeholder="Password"
-                  className="input"
+                  className={styles.input}
                   id="password"
                   name="password"
                   onChange={handleChange}
                 />
               </div>
-              <button className="signin__btn" onClick={handleSubmit}>
+              <button className={styles.signin__btn} onClick={handleSubmit}>
                 Sign in
               </button>
             </form>
@@ -140,16 +139,16 @@ function NavBar() {
             </button> */}
           </div>
         ) : (
-          <div className="container">
+          <div className={styles.container}>
             <h1>SIGN UP</h1>
             <ul className="links">
               <li>
-                <p className="signin" onClick={handlesingUp}>
+                <p className={styles.signin} onClick={handlesingUp}>
                   SIGN IN
                 </p>
               </li>
               <li>
-                <p className="signup" onClick={handlesingUp}>
+                <p className={styles.signup} onClick={handlesingUp}>
                   SIGN UP
                 </p>
               </li>
