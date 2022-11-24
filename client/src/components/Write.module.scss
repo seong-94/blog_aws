@@ -3,32 +3,24 @@
   margin-top: 10px;
   display: grid;
   gap: 1%;
-
+  width: 100%;
   .content {
-    flex: 5;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
 
     input {
       padding: 10px;
-      border: 1px solid lightgray;
     }
 
     .editorContainer {
       height: 700px;
       overflow: scroll;
-      border: 1px solid lightgray;
-
-      .editor {
-        height: 100%;
-        border: none;
-      }
     }
   }
   .menu {
     .item {
-      border: 1px solid lightgray;
       padding: 10px;
       flex: 1;
       display: flex;

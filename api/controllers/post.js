@@ -5,6 +5,7 @@ export const getPosts = function (req, res) {
   const q = req.query.cat
     ? `SELECT * FROM posts WHERE cat=? ORDER BY id DESC`
     : `SELECT * FROM posts ORDER BY id DESC `;
+
   db.query(q, [req.query.cat], (err, data) => {
     if (err) return res.status(500).send(err);
     return res.status(200).json(data);

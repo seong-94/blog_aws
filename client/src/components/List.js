@@ -1,15 +1,16 @@
 import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { AuthContext } from "../context/authContext";
 import Paging from "./Paging";
 import moment from "moment";
 import styles from "./List.module.scss";
-
+import { AiOutlineEye } from "react-icons/ai";
+import NavBar from "./NavBar";
 function List({ listPerPage }) {
   //get posts
   const [posts, setPosts] = useState([]);
-
+  //get username
+  const [usernames, setUserName] = useState([]);
   //search for posts
   const [search, setSearch] = useState("");
   //pagination
@@ -19,7 +20,6 @@ function List({ listPerPage }) {
   const [indexOfLastPost, setIndexOfLastPost] = useState(0);
   const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
   const [currentPosts, setCurrentPosts] = useState(0);
-  const { currentUser } = useContext(AuthContext);
 
   const cat = useLocation().search;
 
@@ -35,6 +35,20 @@ function List({ listPerPage }) {
     };
     fetchData();
   }, [cat]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/auth/getuser`);
+        setUserName(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  //search
   const onChangeSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
@@ -70,69 +84,58 @@ function List({ listPerPage }) {
   return (
     <div className={styles.board_list}>
       <div className={styles.container}>
-        <table className={styles.board_table}>
-          <thead>
-            <tr>
-              <th scope="col" className={styles.th_num}>
-                번호
-              </th>
-              <th scope="col" className={styles.th_title}>
-                제목
-              </th>
-              {/* <th scope="col" className="th-user">
-                작성자
-              </th> */}
-              <th scope="col" className={styles.th_view}>
-                조회수
-              </th>
-              <th scope="col" className={styles.th_date}>
-                등록일
-              </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {currentPosts && posts.length > 0 ? (
-              currentPosts.map((post) => (
-                <tr key={post.id}>
-                  <td>{post.id}</td>
-                  <th>
-                    <Link to={`/post/${post.id}`}>{post.title}</Link>
-                  </th>
-                  {/* <td>{post.postusername}</td> */}
-                  <td>{post.view}</td>
-                  <td>{moment(post.date).format("YYYY-MM-DD")}</td>
-                </tr>
-              ))
-            ) : (
-              <></>
-            )}
-          </tbody>
-        </table>
-        <Paging page={currentpage} count={count} setPage={setPage} />
-        <div id={styles.board_search}>
-          <div className={styles.container}>
-            <div className={styles.search_window}>
-              <form onSubmit={(e) => onSearch(e)}>
-                <input
-                  id={styles.search}
-                  type="text"
-                  maxLength="20"
-                  value={search}
-                  className={styles.search_input}
-                  placeholder="검색어를 입력해주세요."
-                  onChange={onChangeSearch}
-                />
-                <button type="submit" value="검색" className={`${styles.btn} ${styles.btn_dark}`}>
-                  검색
-                </button>
-              </form>
-              {currentUser ? (
-                <button className={styles.write}>
-                  <Link to="/write"> 글쓰기 </Link>
-                </button>
-              ) : null}
+        {currentPosts && posts.length > 0 ? (
+          currentPosts.map((post) => (
+            <div key={post.id}>
+              <ul className={styles.list}>
+                <li>
+                  <Link to={`/post/${post.id}`}>
+                    <h3>
+                      <span className={styles.catname}>[{post.cat}]</span>
+                      <span className={styles.title}>{post.title}</span>
+                    </h3>
+                  </Link>
+                  <h4>
+                    {usernames.map((name) => (
+                      <span>{post.uid === name.id ? name.username : ""}</span>
+                    ))}
+                    <span>{moment(post.date).format("YYYY-MM-DD")} </span>
+                    <span>
+                      <AiOutlineEye />
+                    </span>
+                    <span>{post.view}</span>
+                    {/* <span>댓글 기능</span> */}
+                  </h4>
+                </li>
+              </ul>
             </div>
+          ))
+        ) : (
+          <></>
+        )}
+      </div>
+      <Paging page={currentpage} count={count} setPage={setPage} />
+      <div id={styles.board_search}>
+        <div className={styles.container}>
+          <div className={styles.search_window}>
+            <form onSubmit={(e) => onSearch(e)}>
+              <input
+                id={styles.search}
+                type="text"
+                maxLength="20"
+                value={search}
+                className={styles.search_input}
+                placeholder="검색어를 입력해주세요."
+                onChange={onChangeSearch}
+              />
+              <button
+                type="submit"
+                value="검색"
+                className={`${styles.btn} ${styles.btn_dark}`}
+              >
+                검색
+              </button>
+            </form>
           </div>
         </div>
       </div>

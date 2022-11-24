@@ -1,18 +1,23 @@
-import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+// login logout
 import { AuthContext } from "../context/authContext";
-import Edit from "../img/edit.png";
-import Delete from "../img/delete.png";
-import axios from "axios";
-import moment from "moment";
-import Category from "./Category";
+//  icons
+import { AiOutlineEye } from "react-icons/ai";
+import { BsTrash, BsPencil } from "react-icons/bs";
+
+// get list component
 import List from "./List";
+// axios component
+import axios from "axios";
+
+//get time
+import moment from "moment";
+
+//scss
 import styles from "./Single.module.scss";
 function Single() {
   const [post, setPost] = useState({});
-
-  // const cat = useLocation().search;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,48 +45,48 @@ function Single() {
       console.log(err);
     }
   };
-  return (
-    <div>
-      <div className={styles.single}>
-        <div className={styles.single_left}>
-          <Category />
-        </div>
 
-        <div className={styles.content}>
-          <div className={styles.wrap_inner_view}>
-            <div className={styles.view_post}>
-              <div className={styles.post_head}>
-                <div className={styles.post_title}>
-                  <h1>{post.title}</h1>
-                </div>
-                <div className={styles.post_authorandtype}>
-                  <ul>
-                    <li>작성자 : {post.username}</li>
-                    <li>날짜 : {moment(post.date).format("YYYY-MM-DD")}</li>
-                    <li>{post.cat ? `게시판 :  ${post.cat}` : ""}</li>
-                    <li>조회수 : {post.view}</li>
-                    {(currentUser ? currentUser.username : "") === post.username && (
-                      <div className={styles.edit}>
-                        <Link to={`/write?edit=2`} state={post}>
-                          <img src={Edit} alt="" />
-                        </Link>
-                        <img src={Delete} alt="" onClick={handleDelete} />
-                      </div>
-                    )}
-                  </ul>
-                </div>
-              </div>
-              <div className={styles.post_body}>
-                <div dangerouslySetInnerHTML={{ __html: post.desc }} />
-              </div>
-              {/* <div className="post_thumbuparea">추천</div> */}
+  return (
+    <div className={styles.single}>
+      <div className={styles.content}>
+        <div className={styles.wrap_inner_view}>
+          <div className={styles.view_post}>
+            <div className={styles.post_title}>
+              <h3>{post.cat ? `${"[" + post.cat + "]"}` : ""}</h3>
+              <h1>{post.title}</h1>
             </div>
-            <div className={styles.list_div}>
-              <List listPerPage={setList} />
+            <div className={styles.post_author}>
+              <span className={styles.username}>
+                {(currentUser ? currentUser.username : "") ===
+                  post.username && (
+                  <div className={styles.edit}>
+                    <Link to={`/write?edit=2`} state={post}>
+                      <BsPencil size={20} className={styles.single_pencil} />
+                    </Link>
+                    <BsTrash
+                      className={styles.delete}
+                      onClick={handleDelete}
+                      size={20}
+                    />
+                  </div>
+                )}
+                {post.username}
+              </span>
             </div>
+            <div className={styles.post_info}>
+              <span> {moment(post.date).format("YYYY-MM-DD")}</span>
+              <span className={styles.post_viewcount}>
+                <AiOutlineEye /> {post.view}
+              </span>
+            </div>
+            <div className={styles.post_body}>
+              <div dangerouslySetInnerHTML={{ __html: post.desc }} />
+            </div>
+            {/* <div className="post_thumbuparea">추천</div> */}
           </div>
         </div>
       </div>
+      <List listPerPage={setList} />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import List from "./List";
 import styles from "./Home.module.scss";
 
 function Home() {
-  const [listPerPage] = useState(10);
+  const [listPerPage] = useState(15);
   return (
     <div className={styles.home}>
       <List listPerPage={listPerPage} />

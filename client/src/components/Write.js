@@ -53,8 +53,9 @@ function Write() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+
         <div className={styles.item}>
-          <h1>Category</h1>
+          <button>Category</button>
           <div className="cat">
             <ul>
               <li>
@@ -63,7 +64,6 @@ function Write() {
                   checked={cat === "react"}
                   name="cat"
                   value="react"
-                  id="react"
                   onChange={(e) => setCat(e.target.value)}
                 />
                 <label htmlFor="react">React</label>
@@ -117,7 +117,6 @@ function Write() {
         </div>
         <div className={styles.editorContainer}>
           <CKEditor
-            className={styles.editor}
             editor={ClassicEditor}
             config={{
               placeholder: "내용을 입력하세요.",
