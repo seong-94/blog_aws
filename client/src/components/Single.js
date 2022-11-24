@@ -52,7 +52,7 @@ function Single() {
         <div className={styles.wrap_inner_view}>
           <div className={styles.view_post}>
             <div className={styles.post_title}>
-              <h3>{post.cat ? `${"[" + post.cat + "]"}` : ""}</h3>
+              <h3>{post.cat ? `${[post.cat]}` : ""}</h3>
               <h1>{post.title}</h1>
             </div>
             <div className={styles.post_author}>

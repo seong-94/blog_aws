@@ -2,9 +2,7 @@
   position: relative;
   float: left;
   width: 100%;
-  // height: 100%;
   border-right: 1px solid #aabbaa;
-  // padding: 0 0 160px;
   box-sizing: border-box;
   .content {
     .wrap_inner_view {
@@ -42,12 +40,15 @@
       }
       .post_author {
         padding: 5px 20px;
+        .username {
+          color: #999;
+          font-weight: bold;
+        }
         .edit {
           display: flex;
           gap: 5px;
           .single_pencil {
             color: rgb(0, 0, 0);
-            padding-left: 25px;
           }
           .delete {
             cursor: pointer;
@@ -56,10 +57,6 @@
           :hover {
             color: orangered;
           }
-        }
-        .username {
-          color: #999;
-          font-weight: bold;
         }
       }
     }
