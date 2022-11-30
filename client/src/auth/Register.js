@@ -14,7 +14,7 @@ const Register = () => {
     email: "",
     password: "",
   });
-  const [err, setError] = useState(null);
+  // const [err, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -29,7 +29,8 @@ const Register = () => {
       navigate("/login");
       toast.success("회원가입 성공");
     } catch (err) {
-      setError(err.response.data);
+      toast.error(err.response.responseText);
+      // setError(err.response.data);
     }
   };
 
@@ -47,6 +48,7 @@ const Register = () => {
         <input
           required
           type="email"
+          id="email"
           placeholder="email"
           name="email"
           onChange={handleChange}
@@ -59,7 +61,7 @@ const Register = () => {
           onChange={handleChange}
         />
         <button onClick={handleSubmit}>회원가입</button>
-        {err && <p>{err}</p>}
+        {/* {err && <p>{err}</p>} */}
         <span>
           이미 회원 이신가요? <Link to="/login">로그인</Link>
         </span>
