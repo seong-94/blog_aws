@@ -80,8 +80,6 @@ function List({ listPerPage }) {
     setCurrentpage(e);
   };
 
-  console.log(currentPosts);
-
   return (
     <div className={styles.board_list}>
       <div className={styles.container}>

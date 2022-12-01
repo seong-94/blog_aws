@@ -16,42 +16,29 @@ import styles from "./Write.module.scss";
 // react -toast
 import { toast } from "react-toastify";
 
-function Write() {
+function Write({ setDesc, desc }) {
   const state = useLocation().state;
   const [title, setTitle] = useState(state?.title || "");
   const [value, setValue] = useState(state?.desc || "");
   const [cat, setCat] = useState(state?.cat || "react");
   const [dropCat, setDropCat] = useState(false);
   const navigate = useNavigate();
-  const [file, setFile] = useState(state?.file || null);
-
-  const upload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await axios.post("/upload", formData);
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [image, setImage] = useState(null);
+  const [flag, setFlag] = useState(false);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const imgUrl = await upload();
     try {
       state
         ? await axios.put(`/posts/${state.id}`, {
             title,
             desc: value,
             cat,
-            img: file ? imgUrl : "",
           })
         : await axios.post(`/posts/`, {
             title,
             desc: value,
             cat,
-            img: file ? imgUrl : "",
             date: moment(Date.now()).format("YYYY-MM-DD"),
           });
       navigate("/");
@@ -61,6 +48,39 @@ function Write() {
       console.log(err);
     }
   };
+
+  const customUploadAdapter = (loader) => {
+    return {
+      upload() {
+        return new Promise((resolve, reject) => {
+          const data = new FormData();
+          loader.file.then((file) => {
+            data.append("name", file.name);
+            data.append("file", file);
+
+            axios
+              .post("/upload", data)
+              .then((res) => {
+                if (!flag) {
+                  setFlag(true);
+                  setImage(res.data.filename);
+                }
+                resolve({
+                  default: `${res.data.filename}`,
+                });
+              })
+              .catch((err) => reject(err));
+          });
+        });
+      },
+    };
+  };
+
+  function uploadPlugin(editor) {
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+      return customUploadAdapter(loader);
+    };
+  }
 
   return (
     <div className={styles.add}>
@@ -72,7 +92,7 @@ function Write() {
               onClick={() => setDropCat(!dropCat)}
             >
               <span className={styles.dropbtn_content}>
-                {cat ? cat : "Categor"}
+                {cat ? cat : "Category"}
               </span>
             </button>
             <div
@@ -153,6 +173,7 @@ function Write() {
           <CKEditor
             editor={ClassicEditor}
             config={{
+              extraPlugins: [uploadPlugin],
               placeholder: "내용을 입력하세요.",
             }}
             data={value}
@@ -160,7 +181,6 @@ function Write() {
             onChange={(event, editor) => {
               const desc = editor.getData();
               setValue(desc);
-              setFile(event.target.files[0]);
             }}
             onBlur={(event, editor) => {}}
             onFocus={(event, editor) => {}}

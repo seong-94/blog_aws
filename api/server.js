@@ -8,23 +8,26 @@ import mime from "mime-types";
 import path from "path";
 import { fileURLToPath } from "url";
 import http from "http";
+import history from "connect-history-api-fallback";
 //routes
 import authRoutes from "./routes/auth.js";
 import postRoutes from "./routes/posts.js";
 import likeRoutes from "./routes/likes.js";
 import replyRoutes from "./routes/replys.js";
+
 dotenv.config();
+
 const __filename = fileURLToPath(import.meta.url);
-const app = express();
 const __dirname = path.dirname(__filename);
 const port = process.env.SERVER_PORT || "5000";
+const app = express();
 
 const storage = multer.diskStorage({
   destinatio: (req, file, cb) => {
     cb(null, "image");
   },
   filename: (req, file, cb) => {
-    cb(null, `${uuid()}.${mime.extension(file.mimetype)}`);
+    cb(null, `${uuidv4()}.${mime.extension(file.mimetype)}`);
   },
 });
 
@@ -47,17 +50,8 @@ app.post("/upload", upload.single("file"), (req, res) => {
 
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(history());
 app.use(express.static(path.join(__dirname, "build")));
-
-app.get("/", (req, res) => {
-  res.set({
-    "Cache-Control": "no-cache, no-store, must-revalidate",
-    Pragma: "no-cache",
-    Date: Date.now(),
-  });
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
 
 app.use("/auth", authRoutes);
 app.use("/posts", postRoutes);
@@ -70,11 +64,19 @@ app.use(
     credentials: true,
   })
 );
-
-http.createServer(app).listen(port, () => {
-  console.log(`app listening at ${port}`);
-});
-
-// app.listen(port, () => {
-//   console.log(`접속완료! http://localhost:${port}`);
+// app.get("/", (req, res) => {
+//   res.set({
+//     "Cache-Control": "no-cache, no-store, must-revalidate",
+//     Pragma: "no-cache",
+//     Date: Date.now(),
+//   });
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
 // });
+
+// http.createServer(app).listen(port, () => {
+//   console.log(`app listening at ${port}`);
+// });
+
+app.listen(port, () => {
+  console.log(`접속완료! http://localhost:${port}`);
+});

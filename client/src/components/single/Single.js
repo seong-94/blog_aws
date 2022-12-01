@@ -83,7 +83,6 @@ function Single() {
       console.log(err);
     }
   };
-  console.log(getLikeId);
 
   return (
     <div className={styles.single}>
