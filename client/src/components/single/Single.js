@@ -26,36 +26,39 @@ function Single() {
   const navigate = useNavigate();
   // count of lists
   const [setList] = useState(5);
-  console.log(likes.includes(currentUser.id));
   const postId = location.pathname.split("/")[2];
+
+  console.log(likes.includes(currentUser.id));
+  console.log(likeShift);
+  // console.log(typeof currentUser.id);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/posts/${postId}`);
+        const res = await axios.get(`/posts/${post.id}`);
         setPost(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchData();
-  }, [postId]);
+  }, [post.id]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/likes?postId=` + postId);
+        const res = await axios.get(`/likes?postId=` + post.id);
         setLikes(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchData();
-  }, [postId]);
+  }, [post.id]);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/posts/${postId}`);
+      await axios.delete(`/posts/${post.id}`);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -64,24 +67,22 @@ function Single() {
 
   const likeClick = async () => {
     try {
-      await axios.post(`/likes`, { postId: postId, userId: currentUser.id });
-      // setLikeShift(!likeShift);
+      await axios.post(`/likes`, { postId: post.id, userId: currentUser.id });
+      setLikeShift(!likeShift);
     } catch (err) {
       console.log(err);
     }
   };
-
   const unLikeClick = async () => {
     try {
       await axios.delete(`/likes`, {
         data: { postId: postId },
       });
-      // setLikeShift(!likeShift);
+      setLikeShift(!likeShift);
     } catch (err) {
       console.log(err);
     }
   };
-  console.log(likeShift);
 
   return (
     <div className={styles.single}>
