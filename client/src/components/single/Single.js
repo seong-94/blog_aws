@@ -18,23 +18,34 @@ import moment from "moment";
 import styles from "./Single.module.scss";
 import Comments from "../comment/Comments";
 function Single() {
+  const { currentUser } = useContext(AuthContext);
   const [post, setPost] = useState({});
-  const [likeShift, setLikeShift] = useState(false);
-  const [getLikeId, setGetLikeId] = useState([]);
-
+  const [likes, setLikes] = useState([]);
+  const [likeShift, setLikeShift] = useState(likes.includes(currentUser.id));
   const location = useLocation();
   const navigate = useNavigate();
   // count of lists
   const [setList] = useState(5);
-
+  console.log(likes.includes(currentUser.id));
   const postId = location.pathname.split("/")[2];
-  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`/posts/${postId}`);
         setPost(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, [postId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/likes?postId=` + postId);
+        setLikes(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -53,15 +64,24 @@ function Single() {
 
   const likeClick = async () => {
     try {
-      await axios.post(`/likes/like`, {
-        postid: postId,
-        userid: currentUser.id,
-      });
-      setLikeShift(!likeShift);
+      await axios.post(`/likes`, { postId: postId, userId: currentUser.id });
+      // setLikeShift(!likeShift);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const unLikeClick = async () => {
+    try {
+      await axios.delete(`/likes`, {
+        data: { postId: postId },
+      });
+      // setLikeShift(!likeShift);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(likeShift);
 
   return (
     <div className={styles.single}>
@@ -102,10 +122,17 @@ function Single() {
               <div dangerouslySetInnerHTML={{ __html: post.desc }} />
             </div>
             <div className={styles.post_like}>
-              <button onClick={"likeDeleteClick"}>
-                <AiFillHeart color="red" />
-                추천
-              </button>
+              {likeShift ? (
+                <button onClick={unLikeClick}>
+                  <AiFillHeart color="red" />
+                  추천 ({likes.length})
+                </button>
+              ) : (
+                <button onClick={likeClick}>
+                  <AiOutlineHeart />
+                  추천 ({likes.length})
+                </button>
+              )}
             </div>
           </div>
         </div>
