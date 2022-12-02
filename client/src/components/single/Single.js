@@ -16,6 +16,7 @@ import moment from "moment";
 
 //scss
 import styles from "./Single.module.scss";
+import Comments from "../comment/Comments";
 function Single() {
   const [post, setPost] = useState({});
   const [likeShift, setLikeShift] = useState(false);
@@ -26,7 +27,6 @@ function Single() {
   // count of lists
   const [setList] = useState(5);
 
-  const Lid = getLikeId.map((like) => like.id);
   const postId = location.pathname.split("/")[2];
   const { currentUser } = useContext(AuthContext);
 
@@ -51,33 +51,12 @@ function Single() {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`/likes/getlike`);
-        setGetLikeId(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
-
   const likeClick = async () => {
     try {
       await axios.post(`/likes/like`, {
         postid: postId,
         userid: currentUser.id,
       });
-      setLikeShift(!likeShift);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const likeDeleteClick = async () => {
-    try {
-      await axios.delete(`/likes/${Lid}`);
       setLikeShift(!likeShift);
     } catch (err) {
       console.log(err);
@@ -123,20 +102,16 @@ function Single() {
               <div dangerouslySetInnerHTML={{ __html: post.desc }} />
             </div>
             <div className={styles.post_like}>
-              {likeShift ? (
-                <button onClick={likeDeleteClick}>
-                  <AiFillHeart color="red" />
-                  추천
-                </button>
-              ) : (
-                <button onClick={likeClick}>
-                  <AiOutlineHeart />
-                  추천
-                </button>
-              )}
+              <button onClick={"likeDeleteClick"}>
+                <AiFillHeart color="red" />
+                추천
+              </button>
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <Comments postId={postId} />
       </div>
       <List listPerPage={setList} />
     </div>

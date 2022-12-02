@@ -1,0 +1,18 @@
+import Pagination from "react-js-pagination";
+import "./Pagination.scss";
+
+function CommentPaging({ page, count, setPage }) {
+  return (
+    <Pagination
+      activePage={page}
+      itemsCountPerPage={10}
+      totalItemsCount={count ? count : 0}
+      pageRangeDisplayed={10}
+      prevPageText={"‹"}
+      nextPageText={"›"}
+      onChange={setPage}
+    />
+  );
+}
+
+export default CommentPaging;

@@ -1,31 +1,44 @@
 import { db } from "../db.js";
+import jwt from "jsonwebtoken";
 
-export const addLike = function (req, res) {
-  const q = "INSERT INTO liker (`postid`,`userid`) VALUES (?)";
-  const values = [req.body.postid, req.body.userid];
+export const getLikes = (req, res) => {
+  const q = "SELECT userId FROM likes WHERE postId = ?";
 
-  db.query(q, [values], (err, data) => {
-    if (err) {
-      return res.status(500).json(err);
-    }
-
-    return res.json("like button has been clicked.");
+  db.query(q, [req.query.postId], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data.map((like) => like.userId));
   });
 };
 
-export const unlike = function (req, res) {
-  const q = "DELETE FROM liker WHERE `userid` = ? AND `postid` = ?";
-  db.query(q, [req.body.postid, req.body.userid], (err, data) => {
-    if (err) return res.status(500).json(err);
-    return res.status(200).json("like had been deleted");
+export const addLike = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not logged in!");
+
+  jwt.verify(token, "jwtkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    const q = "INSERT INTO likes (`userId`,`postId`) VALUES (?)";
+    const values = [userInfo.id, req.body.postId];
+
+    db.query(q, [values], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json("Post has been liked.");
+    });
   });
 };
 
-export const getlike = function (req, res) {
-  const q = "SELECT * FROM liker";
+export const deleteLike = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not logged in!");
 
-  db.query(q, [req.body.id], (err, data) => {
-    if (err) return res.status(500).json(err);
-    return res.status(200).json(data);
+  jwt.verify(token, "jwtkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    const q = "DELETE FROM likes WHERE `userId` = ? AND `postId` = ?";
+
+    db.query(q, [userInfo.id, req.query.postId], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json("Post has been disliked.");
+    });
   });
 };
