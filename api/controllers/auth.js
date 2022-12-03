@@ -58,14 +58,16 @@ export const login = (req, res) => {
 };
 
 export const logout = (req, res) => {
-  console.log(res.body);
+  console.log("1", res.body);
   res
     .clearCookie("auth_token", {
       sameSite: "none",
       secure: true,
+      withCredentials: true,
     })
     .status(200)
     .json("로그아웃 돼었습니다.");
+  console.log("11", res);
 };
 
 export const getname = (req, res) => {

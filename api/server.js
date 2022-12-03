@@ -51,7 +51,7 @@ app.use("/likes", likeRoutes);
 app.use(
   cors({
     origin: true,
-    withCredentials: true,
+    credentials: true,
   })
 );
 app.get("/", (req, res) => {
@@ -60,7 +60,7 @@ app.get("/", (req, res) => {
     Pragma: "no-cache",
     Date: Date.now(),
   });
-  res.sendFile(path.join("../client", "build", "index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 http.createServer(app).listen(port, () => {
