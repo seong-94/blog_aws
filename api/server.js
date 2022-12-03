@@ -40,7 +40,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
 app.use(express.json());
 app.use(cookieParser());
 app.use(history());
-// app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "build")));
 
 app.use("/auth", authRoutes);
 app.use("/posts", postRoutes);
@@ -54,19 +54,19 @@ app.use(
     credentials: true,
   })
 );
-// app.get("/", (req, res) => {
-//   res.set({
-//     "Cache-Control": "no-cache, no-store, must-revalidate",
-//     Pragma: "no-cache",
-//     Date: Date.now(),
-//   });
-//   res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
-
-// http.createServer(app).listen(port, () => {
-//   console.log(`app listening at ${port}`);
-// });
-
-app.listen(port, () => {
-  console.log(`접속완료! http://localhost:${port}`);
+app.get("/", (req, res) => {
+  res.set({
+    "Cache-Control": "no-cache, no-store, must-revalidate",
+    Pragma: "no-cache",
+    Date: Date.now(),
+  });
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
+
+http.createServer(app).listen(port, () => {
+  console.log(`app listening at ${port}`);
+});
+
+// app.listen(port, () => {
+//   console.log(`접속완료! http://localhost:${port}`);
+// });

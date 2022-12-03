@@ -9,12 +9,15 @@ import moment from "moment";
 import axios from "axios";
 // react toastify
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Comment({ postId }) {
   const { currentUser } = useContext(AuthContext);
+  const userid = currentUser ? currentUser.id : null;
+  const username = currentUser ? currentUser.name : null;
   const [desc, setDesc] = useState("");
   const [getComment, setGetComment] = useState([]);
-
+  const navigate = useNavigate();
   //pagination
   const [count, setCount] = useState(0); //아이템 총 개수
   const [currentpage, setCurrentpage] = useState(1); //현재페이지
@@ -44,7 +47,7 @@ function Comment({ postId }) {
     try {
       await axios.post(`/comments`, {
         postId,
-        name: currentUser.username,
+        name: username,
         desc: desc,
         date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       });
@@ -99,7 +102,7 @@ function Comment({ postId }) {
               <li className={styles.comment_name}>
                 {comment.username}
                 <button onClick={(e) => handleDeleteClick(e, comment.id)}>
-                  <RiDeleteBin6Line size={15} />
+                  {<RiDeleteBin6Line size={15} />}
                 </button>
               </li>
               <li className={styles.comment_desc}>{comment.desc}</li>

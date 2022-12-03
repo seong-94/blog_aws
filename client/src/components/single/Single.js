@@ -17,68 +17,68 @@ import moment from "moment";
 //scss
 import styles from "./Single.module.scss";
 import Comments from "../comment/Comments";
+import { toast } from "react-toastify";
 function Single() {
   const { currentUser } = useContext(AuthContext);
   const [post, setPost] = useState({});
   const [likes, setLikes] = useState([]);
-  const [likeShift, setLikeShift] = useState(likes.includes(currentUser.id));
+  const userid = currentUser ? currentUser.id : null;
   const location = useLocation();
+  const postId = location.pathname.split("/")[2];
   const navigate = useNavigate();
   // count of lists
   const [setList] = useState(5);
-  const postId = location.pathname.split("/")[2];
-
-  console.log(likes.includes(currentUser.id));
-  console.log(likeShift);
-  // console.log(typeof currentUser.id);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/posts/${post.id}`);
+        const res = await axios.get(`/posts/${postId}`);
         setPost(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchData();
-  }, [post.id]);
+  }, [postId]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/likes?postId=` + post.id);
+        const res = await axios.get(`/likes?postId=` + postId);
         setLikes(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchData();
-  }, [post.id]);
+  }, [postId]);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/posts/${post.id}`);
+      await axios.delete(`/posts/${postId}`);
       navigate("/");
     } catch (err) {
       console.log(err);
     }
   };
 
-  const likeClick = async () => {
+  const likeClick = async (e) => {
     try {
-      await axios.post(`/likes`, { postId: post.id, userId: currentUser.id });
-      setLikeShift(!likeShift);
+      await axios.post(`/likes`, {
+        postId: postId,
+        userId: userid,
+      });
     } catch (err) {
+      toast.error(err.request.responseText);
       console.log(err);
     }
   };
+
   const unLikeClick = async () => {
     try {
       await axios.delete(`/likes`, {
         data: { postId: postId },
       });
-      setLikeShift(!likeShift);
     } catch (err) {
       console.log(err);
     }
@@ -90,9 +90,7 @@ function Single() {
         <div className={styles.wrap_inner_view}>
           <div className={styles.view_post}>
             <div className={styles.post_title}>
-              {/* <Link to={/?cat=post.cat}> */}
               <h3>{post.cat ? `[${post.cat}]` : ""}</h3>
-              {/* </Link> */}
               <h1>{post.title}</h1>
             </div>
             <div className={styles.post_author}>
@@ -123,7 +121,7 @@ function Single() {
               <div dangerouslySetInnerHTML={{ __html: post.desc }} />
             </div>
             <div className={styles.post_like}>
-              {likeShift ? (
+              {likes.includes(userid) ? (
                 <button onClick={unLikeClick}>
                   <AiFillHeart color="red" />
                   추천 ({likes.length})
