@@ -60,7 +60,7 @@ app.get("/", (req, res) => {
     Pragma: "no-cache",
     Date: Date.now(),
   });
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join("../client", "build", "index.html"));
 });
 
 http.createServer(app).listen(port, () => {
