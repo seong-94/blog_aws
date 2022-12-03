@@ -50,6 +50,7 @@ export const login = (req, res) => {
     res
       .cookie("auth_token", token, {
         httpOnly: true,
+        maxAge: 30 * 60 * 1000, //30 Mins
       })
       .status(200)
       .json(other);
@@ -57,14 +58,16 @@ export const login = (req, res) => {
 };
 
 export const logout = (req, res) => {
+  console.log(res.body);
   res
     .clearCookie("auth_token", {
       sameSite: "none",
       secure: true,
     })
     .status(200)
-    .json("User has been logged out.");
+    .json("로그아웃 돼었습니다.");
 };
+
 export const getname = (req, res) => {
   const q = "SELECT `id`, `username` FROM users ";
   db.query(q, [req.body.username], (err, data) => {

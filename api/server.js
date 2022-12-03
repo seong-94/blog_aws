@@ -9,7 +9,7 @@ import http from "http";
 import history from "connect-history-api-fallback";
 //routes
 import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/users.js";
+// import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
 import commentRoutes from "./routes/comments.js";
 import likeRoutes from "./routes/likes.js";
@@ -44,14 +44,14 @@ app.use(express.static(path.join(__dirname, "build")));
 
 app.use("/auth", authRoutes);
 app.use("/posts", postRoutes);
-app.use("/users", userRoutes);
+// app.use("/users", userRoutes);
 app.use("/comments", commentRoutes);
 app.use("/likes", likeRoutes);
 
 app.use(
   cors({
     origin: true,
-    credentials: true,
+    withCredentials: true,
   })
 );
 app.get("/", (req, res) => {
