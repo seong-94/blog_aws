@@ -50,8 +50,6 @@ function Single() {
     setHeartShift(likes.includes(userid));
   }, [userid, likes]);
 
-  console.log(heartShift);
-
   const handleDelete = async () => {
     try {
       await axios.delete(`/posts/${postId}`);
@@ -65,13 +63,12 @@ function Single() {
     let is_heart = false;
     if (!likes.includes(userid)) {
       try {
-        axios.post(`/likes/add`, {
+        axios.post(`/likes`, {
           postId: postId,
           userId: userid,
         });
       } catch (err) {
         toast.error(err.request.responseText);
-        // console.log(err);
       }
       is_heart = true;
     } else {
