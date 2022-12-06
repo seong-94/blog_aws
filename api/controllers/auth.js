@@ -49,25 +49,23 @@ export const login = (req, res) => {
 
     res
       .cookie("auth_token", token, {
-        httpOnly: true,
+        // httpOnly: true, /** https 가 아니라 보안에러 발생 */
         maxAge: 30 * 60 * 1000, //30 Mins
       })
       .status(200)
-      .json(other);
+      .json(other)
+      .redirect("/");
   });
 };
 
 export const logout = (req, res) => {
-  console.log("1", res.body);
-  res
-    .clearCookie("auth_token", {
-      sameSite: "none",
-      secure: true,
-      withCredentials: true,
-    })
-    .status(200)
-    .json("로그아웃 돼었습니다.");
-  console.log("11", res);
+  res.clearCookie("auth_token", {
+    // sameSite: "none", /** https 가 아니라 보안에러 발생 */
+    // secure: true,  /** https 가 아니라 보안에러 발생 */
+    withCredentials: true,
+  });
+  res.redirect(`/`);
+  console.log(res);
 };
 
 export const getname = (req, res) => {

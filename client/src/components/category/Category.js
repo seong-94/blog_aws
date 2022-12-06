@@ -2,14 +2,25 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Category.module.scss";
 import { BiPencil, BiDownArrow, BiUpArrow } from "react-icons/bi";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { FcHome } from "react-icons/fc";
 function Category() {
   const [dropMenu, setDropMenu] = useState(false);
   const [dropMenu2, setDropMenu2] = useState(false);
   const [dropMenu3, setDropMenu3] = useState(false);
-
+  const [sideMenu, setSideMenu] = useState(false);
   return (
-    <div id={styles.category}>
+    <div
+      className={
+        sideMenu ? [styles.category, styles.add].join(" ") : styles.category
+      }
+    >
+      <div className={styles.cloes_btn}>
+        <AiOutlineClose onClick={() => setSideMenu(!sideMenu)} size={30} />
+      </div>
+      <div className={styles.open_btn}>
+        <AiOutlineMenu size={30} onClick={() => setSideMenu(!sideMenu)} />
+      </div>
       <div className={styles.home_btn}>
         <Link to="/">
           <FcHome size={100} />

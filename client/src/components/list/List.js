@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Paging from "../pagination/Paging";
 import moment from "moment";
@@ -116,7 +116,7 @@ function List({ listPerPage }) {
         )}
       </div>
       <Paging page={currentpage} count={count} setPage={setPage} />
-      <div id={styles.board_search}>
+      <div className={styles.board_search}>
         <div className={styles.container}>
           <div className={styles.search_window}>
             <form onSubmit={(e) => onSearch(e)}>

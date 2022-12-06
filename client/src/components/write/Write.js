@@ -83,7 +83,7 @@ function Write({ setDesc, desc }) {
   }
 
   return (
-    <div className={styles.add}>
+    <div className={styles.write}>
       <div className={styles.content}>
         <div className={styles.wrap_inner_view}>
           <div className={styles.dropdown}>
