@@ -20,7 +20,7 @@ import Comments from "../comment/Comments";
 import { toast } from "react-toastify";
 function Single() {
   const { currentUser } = useContext(AuthContext);
-  const userid = currentUser ? currentUser.id : null;
+  const userid = currentUser ? currentUser.users_id : null;
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -91,17 +91,6 @@ function Single() {
     fetchData();
     setHeartShift(is_heart);
   }, [likes, userid, postId]);
-
-  // const unLikeClick = async () => {
-  //   try {
-  //     await axios.delete(`/likes`, {
-  //       data: { postId: postId },
-  //     });
-  //     setHeartShift();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   return (
     <div className={styles.single}>

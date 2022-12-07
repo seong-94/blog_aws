@@ -23,8 +23,8 @@ function Write({ setDesc, desc }) {
   const [cat, setCat] = useState(state?.cat || "react");
   const [dropCat, setDropCat] = useState(false);
   const navigate = useNavigate();
-  const [image, setImage] = useState(null);
-  const [flag, setFlag] = useState(false);
+  // const [image, setImage] = useState(null);
+  // const [flag, setFlag] = useState(false);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -44,43 +44,43 @@ function Write({ setDesc, desc }) {
       navigate("/");
       toast.success("업로드 성공하였습니다.");
     } catch (err) {
-      toast.error(err.request.responseText);
+      toast.error(err.request);
       console.log(err);
     }
   };
 
-  const customUploadAdapter = (loader) => {
-    return {
-      upload() {
-        return new Promise((resolve, reject) => {
-          const data = new FormData();
-          loader.file.then((file) => {
-            data.append("name", file.name);
-            data.append("file", file);
+  // const customUploadAdapter = (loader) => {
+  //   return {
+  //     upload() {
+  //       return new Promise((resolve, reject) => {
+  //         const data = new FormData();
+  //         loader.file.then((file) => {
+  //           data.append("name", file.name);
+  //           data.append("file", file);
 
-            axios
-              .post("/upload", data)
-              .then((res) => {
-                if (!flag) {
-                  setFlag(true);
-                  setImage(res.data.filename);
-                }
-                resolve({
-                  default: `${res.data.filename}`,
-                });
-              })
-              .catch((err) => reject(err));
-          });
-        });
-      },
-    };
-  };
+  //           axios
+  //             .post("/upload", data)
+  //             .then((res) => {
+  //               if (!flag) {
+  //                 setFlag(true);
+  //                 // setImage(res.data.filename);
+  //               }
+  //               resolve({
+  //                 default: `${res.data.filename}`,
+  //               });
+  //             })
+  //             .catch((err) => reject(err));
+  //         });
+  //       });
+  //     },
+  //   };
+  // };
 
-  function uploadPlugin(editor) {
-    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-      return customUploadAdapter(loader);
-    };
-  }
+  // function uploadPlugin(editor) {
+  //   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+  //     return customUploadAdapter(loader);
+  //   };
+  // }
 
   return (
     <div className={styles.write}>
@@ -173,7 +173,6 @@ function Write({ setDesc, desc }) {
           <CKEditor
             editor={ClassicEditor}
             config={{
-              extraPlugins: [uploadPlugin],
               placeholder: "내용을 입력하세요.",
             }}
             data={value}

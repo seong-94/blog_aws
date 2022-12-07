@@ -3,19 +3,26 @@ import jwt from "jsonwebtoken";
 
 export const getPosts = function (req, res) {
   const q = req.query.cat
-    ? `SELECT * FROM posts WHERE cat=? ORDER BY id DESC`
-    : `SELECT * FROM posts ORDER BY id DESC `;
+    ? `SELECT posts.*,users.users_id ,users.username 
+    FROM posts LEFT JOIN users 
+    ON posts.uid = users.users_id
+    WHERE cat = ?
+    ORDER BY posts.posts_id DESC;`
+    : `SELECT posts.*,users.users_id ,users.username FROM posts LEFT JOIN users ON posts.uid = users.users_id ORDER BY posts.posts_id DESC `;
 
   db.query(q, [req.query.cat], (err, data) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).json(data);
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      return res.status(200).json(data);
+    }
   });
 };
 
 export const getPost = function (req, res) {
   const q =
-    "SELECT p.id, `username`, `title`,`cat`, `desc`,`view`, `date` FROM users u JOIN posts p ON u.id = p.uid WHERE p.id = ? ";
-  const qv = "UPDATE posts SET view = view + 1 WHERE id = ? ";
+    "SELECT p.posts_id,  `username`, `title`,`cat`, `desc`,`view`, `date`   FROM users u JOIN posts p   ON u.users_id = p.uid WHERE p.posts_id = ? ";
+  const qv = "UPDATE posts SET view = view + 1 WHERE posts_id = ? ";
   db.query(q, [req.params.id], (err, data) => {
     db.query(qv, [req.params.id], function () {
       if (err) return res.status(500).json(err);
@@ -33,7 +40,6 @@ export const addPost = function (req, res) {
     if (err) {
       return res.status(403).json("Token is not valid!");
     }
-
     const q =
       "INSERT INTO posts(`title`, `desc`, `cat`,`date`,`uid`) VALUES (?)";
 
@@ -47,7 +53,6 @@ export const addPost = function (req, res) {
 
     db.query(q, [values], (err, data) => {
       if (err) {
-        console.log("err", err);
         return res.status(500).json(err);
       }
       return res.json("Post has been created.");
@@ -62,7 +67,7 @@ export const deletePost = function (req, res) {
     if (err) return res.status(403).json("wrong token!");
 
     const postId = req.params.id;
-    const q = "DELETE FROM posts WHERE `id` = ? AND `uid` = ?";
+    const q = "DELETE FROM posts WHERE `posts_id` = ? AND `uid` = ?";
     db.query(q, [postId, userInfo.id], (err, data) => {
       if (err) return res.status(403).json("You can delete only your post!");
       return res.json("posts had been deleted");
@@ -78,7 +83,6 @@ export const updatePost = function (req, res) {
     if (err) return res.status(403).json("Token is not valid!");
 
     const postId = req.params.id;
-    // console.log("err", err);
     const q =
       "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
 

@@ -44,17 +44,15 @@ export const login = (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json("틀린 비밀 번호 또는 아이디 입니다.");
     }
-    const token = jwt.sign({ id: data[0].id }, "jwtkey");
+    const token = jwt.sign({ id: data[0].users_id }, "jwtkey");
     const { password, ...other } = data[0];
-
     res
       .cookie("auth_token", token, {
         // httpOnly: true, /** https 가 아니라 보안에러 발생 */
         maxAge: 30 * 60 * 1000, //30 Mins
       })
       .status(200)
-      .json(other)
-      .redirect("/");
+      .json(other);
   });
 };
 
@@ -65,13 +63,12 @@ export const logout = (req, res) => {
     withCredentials: true,
   });
   res.redirect(`/`);
-  console.log(res);
 };
 
-export const getname = (req, res) => {
-  const q = "SELECT `id`, `username` FROM users ";
-  db.query(q, [req.body.username], (err, data) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).json(data);
-  });
-};
+// export const getname = (req, res) => {
+//   const q = "SELECT `id`, `username` FROM users ";
+//   db.query(q, [req.body.username], (err, data) => {
+//     if (err) return res.status(500).send(err);
+//     return res.status(200).json(data);
+//   });
+// };

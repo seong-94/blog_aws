@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
 import styles from "./Navbar.module.scss";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 
 function NavBar() {
   const { currentUser, logout } = useContext(AuthContext);
+
+  const [User, setUser] = useState(currentUser);
+  useEffect(() => {
+    setUser(currentUser);
+  }, [currentUser]);
+
   return (
     <div className={styles.navbar_head}>
-      {currentUser ? (
+      {User ? (
         <button className={styles.login_btn} onClick={logout}>
           로그아웃
         </button>

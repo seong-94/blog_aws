@@ -4,9 +4,9 @@ import cors from "cors";
 import multer from "multer";
 import dotenv from "dotenv";
 import path from "path";
-import { fileURLToPath } from "url";
 import http from "http";
 import history from "connect-history-api-fallback";
+import { fileURLToPath } from "url";
 //routes
 import authRoutes from "./routes/auth.js";
 // import userRoutes from "./routes/users.js";
@@ -21,30 +21,29 @@ const __dirname = path.dirname(__filename);
 const port = process.env.SERVER_PORT || "5000";
 const app = express();
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "../client/public/upload");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "../client/public/upload");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + file.originalname);
+//   },
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
-app.post("/upload", upload.single("file"), (req, res) => {
-  const file = req.file;
-  res.status(200).json(file.filename);
-});
+// app.post("/upload", upload.single("file"), (req, res) => {
+//   const file = req.file;
+//   res.status(200).json(file.filename);
+// });
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(history());
 app.use(express.static(path.join(__dirname, "build")));
 
-app.use("/auth", authRoutes);
 app.use("/posts", postRoutes);
-// app.use("/users", userRoutes);
+app.use("/auth", authRoutes);
 app.use("/comments", commentRoutes);
 app.use("/likes", likeRoutes);
 
@@ -54,6 +53,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.get("/", (req, res) => {
   res.set({
     "Cache-Control": "no-cache, no-store, must-revalidate",

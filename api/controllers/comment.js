@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 // import moment from "moment";
 
 export const getComments = (req, res) => {
-  const q = `SELECT c.*, u.id AS userId, username  FROM comments AS c JOIN users AS u ON (u.id = c.userId)
+  const q = `SELECT c.*, u.users_id AS userId, username  FROM comments AS c JOIN users AS u ON (u.users_id = c.userId)
     WHERE c.postId = ? ORDER BY c.date DESC
     `;
   db.query(q, [req.query.postId], (err, data) => {
@@ -40,7 +40,7 @@ export const deleteComment = (req, res) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const commentId = req.params.id;
-    const q = "DELETE FROM comments WHERE `id` = ? AND `userId` = ?";
+    const q = "DELETE FROM comments WHERE `comments_id` = ? AND `userId` = ?";
 
     db.query(q, [commentId, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);

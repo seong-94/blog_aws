@@ -9,7 +9,7 @@ function List({ listPerPage }) {
   //get posts
   const [posts, setPosts] = useState([]);
   //get username
-  const [usernames, setUserName] = useState([]);
+  // const [usernames, setUserName] = useState([]);
   //search for posts
   const [search, setSearch] = useState("");
   //pagination
@@ -24,7 +24,7 @@ function List({ listPerPage }) {
 
   // get posts data
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (e) => {
       try {
         const res = await axios.get(`/posts${cat}`);
         setPosts(res.data);
@@ -34,18 +34,6 @@ function List({ listPerPage }) {
     };
     fetchData();
   }, [cat]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`/auth/getuser`);
-        setUserName(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
 
   //search
   const onChangeSearch = (e) => {
@@ -88,24 +76,21 @@ function List({ listPerPage }) {
             <div key={post.id}>
               <ul className={styles.list}>
                 <li>
-                  <Link to={`/post/${post.id}`}>
+                  <Link to={`/post/${post.posts_id}`}>
                     <h3>
                       <span className={styles.catname}>[{post.cat}]</span>
                       <span className={styles.title}>{post.title}</span>
                     </h3>
                   </Link>
                   <h4>
-                    {usernames.map((name) => (
-                      <span>
-                        {post.uid === name.id ? name.username : `${""}`}
-                      </span>
-                    ))}
+                    <span>{post.username}</span>
                     <span>{moment(post.date).format("YYYY-MM-DD")} </span>
                     <span>
                       <AiOutlineEye />
                     </span>
                     <span>{post.view}</span>
-                    {/* <span> reply counting</span> */}
+                    {/* <span>{post.likes}</span> */}
+                    {/* <span>{post.likes}</span> */}
                   </h4>
                 </li>
               </ul>
