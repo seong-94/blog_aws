@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import Paging from "../pagination/Paging";
 import moment from "moment";
 import styles from "./List.module.scss";
-import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineHeart, AiOutlineComment } from "react-icons/ai";
 function List({ listPerPage }) {
   //get posts
   const [posts, setPosts] = useState([]);
@@ -40,7 +40,7 @@ function List({ listPerPage }) {
     e.preventDefault();
     setSearch(e.target.value);
   };
-
+  // console.log(posts);
   const onSearch = (e) => {
     e.preventDefault();
     if (search === null || search === "") {
@@ -67,7 +67,7 @@ function List({ listPerPage }) {
   const setPage = (e) => {
     setCurrentpage(e);
   };
-
+  console.log(posts);
   return (
     <div className={styles.board_list}>
       <div className={styles.container}>
@@ -75,7 +75,7 @@ function List({ listPerPage }) {
           currentPosts.map((post) => (
             <div key={post.id}>
               <ul className={styles.list}>
-                <li>
+                <li key={post.id}>
                   <Link to={`/post/${post.posts_id}`}>
                     <h3>
                       <span className={styles.catname}>[{post.cat}]</span>
@@ -89,8 +89,14 @@ function List({ listPerPage }) {
                       <AiOutlineEye />
                     </span>
                     <span>{post.view}</span>
-                    {/* <span>{post.likes}</span> */}
-                    {/* <span>{post.likes}</span> */}
+                    <span>
+                      <AiOutlineComment />
+                    </span>
+                    <span>{post.comments}</span>
+                    <span>
+                      <AiOutlineHeart />
+                    </span>
+                    <span>{post.likes}</span>
                   </h4>
                 </li>
               </ul>
@@ -114,11 +120,7 @@ function List({ listPerPage }) {
                 placeholder="검색어를 입력해주세요."
                 onChange={onChangeSearch}
               />
-              <button
-                type="submit"
-                value="검색"
-                className={`${styles.btn} ${styles.btn_dark}`}
-              >
+              <button type="submit" value="검색" className={`${styles.btn} ${styles.btn_dark}`}>
                 검색
               </button>
             </form>

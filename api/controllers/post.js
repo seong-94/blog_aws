@@ -3,14 +3,24 @@ import jwt from "jsonwebtoken";
 
 export const getPosts = function (req, res) {
   const q = req.query.cat
-    ? `SELECT posts.*,users.users_id ,users.username 
-    FROM posts LEFT JOIN users 
-    ON posts.uid = users.users_id
+    ? `SELECT p.*,u.users_id ,u.username
+    ,(SELECT COUNT(*) FROM comments as c WHERE c.postid=p.posts_id) AS comments 
+    ,(SELECT COUNT(*) FROM likes as l WHERE l.postid=p.posts_id)  AS likes
+    FROM posts AS p
+    LEFT JOIN users AS u
+    ON p.uid = u.users_id
     WHERE cat = ?
-    ORDER BY posts.posts_id DESC;`
-    : `SELECT posts.*,users.users_id ,users.username FROM posts LEFT JOIN users ON posts.uid = users.users_id ORDER BY posts.posts_id DESC `;
+    ORDER BY p.posts_id DESC;`
+    : `SELECT p.*,u.users_id ,u.username 
+    ,(SELECT COUNT(*) FROM comments as c WHERE c.postid=p.posts_id) AS comments 
+    ,(SELECT COUNT(*) FROM likes as l WHERE l.postid=p.posts_id)  AS likes
+     FROM posts AS p
+     LEFT JOIN users AS u 
+     ON p.uid = u.users_id 
+     ORDER BY p.posts_id DESC `;
 
   db.query(q, [req.query.cat], (err, data) => {
+    console.log("err1", err);
     if (err) {
       return res.status(500).send(err);
     } else {
@@ -40,16 +50,9 @@ export const addPost = function (req, res) {
     if (err) {
       return res.status(403).json("Token is not valid!");
     }
-    const q =
-      "INSERT INTO posts(`title`, `desc`, `cat`,`date`,`uid`) VALUES (?)";
+    const q = "INSERT INTO posts(`title`, `desc`, `cat`,`date`,`uid`) VALUES (?)";
 
-    const values = [
-      req.body.title,
-      req.body.desc,
-      req.body.cat,
-      req.body.date,
-      userInfo.id,
-    ];
+    const values = [req.body.title, req.body.desc, req.body.cat, req.body.date, userInfo.id];
 
     db.query(q, [values], (err, data) => {
       if (err) {
@@ -83,8 +86,7 @@ export const updatePost = function (req, res) {
     if (err) return res.status(403).json("Token is not valid!");
 
     const postId = req.params.id;
-    const q =
-      "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
+    const q = "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
 
     const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
 
