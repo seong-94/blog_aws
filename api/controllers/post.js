@@ -20,7 +20,6 @@ export const getPosts = function (req, res) {
      ORDER BY p.posts_id DESC `;
 
   db.query(q, [req.query.cat], (err, data) => {
-    console.log("err1", err);
     if (err) {
       return res.status(500).send(err);
     } else {
@@ -50,9 +49,16 @@ export const addPost = function (req, res) {
     if (err) {
       return res.status(403).json("Token is not valid!");
     }
-    const q = "INSERT INTO posts(`title`, `desc`, `cat`,`date`,`uid`) VALUES (?)";
+    const q =
+      "INSERT INTO posts(`title`, `desc`, `cat`,`date`,`uid`) VALUES (?)";
 
-    const values = [req.body.title, req.body.desc, req.body.cat, req.body.date, userInfo.id];
+    const values = [
+      req.body.title,
+      req.body.desc,
+      req.body.cat,
+      req.body.date,
+      userInfo.id,
+    ];
 
     db.query(q, [values], (err, data) => {
       if (err) {
@@ -86,7 +92,8 @@ export const updatePost = function (req, res) {
     if (err) return res.status(403).json("Token is not valid!");
 
     const postId = req.params.id;
-    const q = "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
+    const q =
+      "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
 
     const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
 
