@@ -4,21 +4,15 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 //  icons
 import { AiOutlineEye, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { BsTrash, BsPencil } from "react-icons/bs";
 
-// get list component
-import List from "../list/List";
 // axios component
 import axios from "axios";
 
-//get time
-import moment from "moment";
+import * as S from "./SingleStyle";
+import { getDate } from "commons/libraries/utils";
+import Comment from "components/comment/list/CommentsList";
 
-//scss
-import styles from "./Single.module.scss";
-import Comments from "../comment/Comments";
-import { toast } from "react-toastify";
-function Single() {
+export default function Single() {
   const { currentUser } = useContext(AuthContext);
   const userid = currentUser ? currentUser.users_id : null;
   const location = useLocation();
@@ -29,8 +23,6 @@ function Single() {
   const [heartShift, setHeartShift] = useState(likes.includes(userid));
 
   const postId = location.pathname.split("/")[2];
-  // count of lists
-  const [setList] = useState(5);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +47,7 @@ function Single() {
       await axios.delete(`/posts/${postId}`);
       navigate("/");
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   };
 
@@ -68,7 +60,7 @@ function Single() {
           userId: userid,
         });
       } catch (err) {
-        toast.error(err.request.responseText);
+        alert(err.request.responseText);
       }
       is_heart = true;
     } else {
@@ -93,63 +85,55 @@ function Single() {
   }, [likes, userid, postId]);
 
   return (
-    <div className={styles.single}>
-      <div className={styles.content}>
-        <div className={styles.wrap_inner_view}>
-          <div className={styles.view_post}>
-            <div className={styles.post_title}>
-              <h3>{post.cat ? `[${post.cat}]` : ""}</h3>
-              <h1>{post.title}</h1>
-            </div>
-            <div className={styles.post_author}>
-              <span className={styles.username}>
-                {(currentUser ? currentUser.username : "") ===
-                  post.username && (
-                  <div className={styles.edit}>
-                    <Link to={`/write?edit=2`} state={post}>
-                      <BsPencil size={20} className={styles.single_pencil} />
-                    </Link>
-                    <BsTrash
-                      className={styles.delete}
-                      onClick={handleDelete}
-                      size={20}
-                    />
-                  </div>
-                )}
-                {post.username}
-              </span>
-            </div>
-            <div className={styles.post_info}>
-              <span> {moment(post.date).format("YYYY-MM-DD")}</span>
-              <span className={styles.post_viewcount}>
-                <AiOutlineEye /> {post.view}
-              </span>
-            </div>
-            <div className={styles.post_body}>
-              <div dangerouslySetInnerHTML={{ __html: post.desc }} />
-            </div>
-            <div className={styles.post_like}>
+    <S.Wrapper>
+      <S.CardWrapper>
+        <S.Header>
+          <S.AvatarWrapper>
+            <S.Avatar src="/images/avatar.png" />
+            <S.Info>
+              <div>{post?.cat}</div>
+              <S.Writer>작성자 : {post?.username}</S.Writer>
+              <S.CreatedAt>
+                날짜 : {getDate(post?.date)}
+                <S.PostViews>
+                  <AiOutlineEye /> {post.view}
+                </S.PostViews>
+              </S.CreatedAt>
+            </S.Info>
+          </S.AvatarWrapper>
+        </S.Header>
+        <S.Body>
+          <S.Title>{post?.title}</S.Title>
+          <S.Contents dangerouslySetInnerHTML={{ __html: post.desc }} />
+          <S.LikeWrapper>
+            <S.IconWrapper>
               {heartShift ? (
-                <button onClick={likeClick}>
+                <S.LikeButton onClick={likeClick}>
                   <AiFillHeart color="red" />
                   추천 ({likes.length})
-                </button>
+                </S.LikeButton>
               ) : (
-                <button onClick={likeClick}>
+                <S.LikeButton onClick={likeClick}>
                   <AiOutlineHeart />
                   추천 ({likes.length})
-                </button>
+                </S.LikeButton>
               )}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <Comments postId={postId} />
-      </div>
-      <List listPerPage={setList} />
-    </div>
+            </S.IconWrapper>
+          </S.LikeWrapper>
+        </S.Body>
+      </S.CardWrapper>
+      <S.BottomWrapper>
+        <S.Button>
+          <Link to="/">목록으로</Link>
+        </S.Button>
+        <S.Button>
+          <Link to="/write?edit=2" state={post}>
+            수정하기
+          </Link>
+        </S.Button>
+        <S.Button onClick={handleDelete}>삭제하기</S.Button>
+      </S.BottomWrapper>
+      <Comment postId={postId} />
+    </S.Wrapper>
   );
 }
-
-export default Single;

@@ -67,7 +67,6 @@ function List({ listPerPage }) {
   const setPage = (e) => {
     setCurrentpage(e);
   };
-  console.log(posts);
   return (
     <div className={styles.board_list}>
       <div className={styles.container}>
@@ -120,7 +119,11 @@ function List({ listPerPage }) {
                 placeholder="검색어를 입력해주세요."
                 onChange={onChangeSearch}
               />
-              <button type="submit" value="검색" className={`${styles.btn} ${styles.btn_dark}`}>
+              <button
+                type="submit"
+                value="검색"
+                className={`${styles.btn} ${styles.btn_dark}`}
+              >
                 검색
               </button>
             </form>

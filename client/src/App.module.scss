@@ -38,11 +38,8 @@ td {
   margin: 0;
   font-size: 100%;
 }
-body {
-  background-image: url("https://mindtheg.com/media/catalog/product/cache/3/thumbnail/1280x/17f82f742ffe127f42dca9de82fb58b1/w/p/wp20492-jardin-del-sol-green-1_1.jpg");
-  // background-color: rgb(170, 161, 161);
-}
 .App {
+  box-sizing: border-box;
   font-family: "Noto Sans KR", sans-serif;
   position: relative;
   width: 1300px;
@@ -53,66 +50,5 @@ body {
     flex-direction: column;
     width: 100%;
     height: 100%;
-  }
-}
-
-@media screen and (max-width: 412px) {
-  html,
-  body,
-  div,
-  span,
-  object,
-  iframe,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  a,
-  img,
-  strong,
-  small,
-  dl,
-  dt,
-  dd,
-  ul,
-  li,
-  fieldset,
-  form,
-  input,
-  button,
-  label,
-  legend,
-  table,
-  caption,
-  tbody,
-  tfoot,
-  thead,
-  tr,
-  th,
-  td {
-    padding: 0;
-    margin: 0;
-    font-size: 100%;
-  }
-  body {
-    background-image: url("https://mindtheg.com/media/catalog/product/cache/3/thumbnail/1280x/17f82f742ffe127f42dca9de82fb58b1/w/p/wp20492-jardin-del-sol-green-1_1.jpg");
-  }
-  .App {
-    font-family: "Noto Sans KR", sans-serif;
-    position: relative;
-    overflow-x: hidden;
-    width: 100%;
-    display: flex;
-    background-color: #fff;
-    margin: 0 auto;
-    .container {
-      flex-direction: column;
-      min-width: 320px;
-      width: 100%;
-      height: 100vh;
-    }
   }
 }

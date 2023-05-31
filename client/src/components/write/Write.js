@@ -8,18 +8,26 @@ import axios from "axios";
 //time
 import moment from "moment";
 
-// editor
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 //scss
 import styles from "./Write.module.scss";
 // react -toast
 import { toast } from "react-toastify";
 
+import * as S from "./WriteStyles";
+import { Fragment } from "react";
+
+const CATEGORY = [
+  { name: "react" },
+  { name: "javascript" },
+  { name: "nodejs" },
+  { name: "aws" },
+  { name: "mysql" },
+];
+
 function Write({ setDesc, desc }) {
   const state = useLocation().state;
   const [title, setTitle] = useState(state?.title || "");
-  const [value, setValue] = useState(state?.desc || "");
+  const [contents, setContents] = useState(state?.desc || "");
   const [cat, setCat] = useState(state?.cat || "react");
   const [dropCat, setDropCat] = useState(false);
   const navigate = useNavigate();
@@ -32,12 +40,12 @@ function Write({ setDesc, desc }) {
       state
         ? await axios.put(`/posts/${state.id}`, {
             title,
-            desc: value,
+            desc: contents,
             cat,
           })
         : await axios.post(`/posts/`, {
             title,
-            desc: value,
+            desc: contents,
             cat,
             date: moment(Date.now()).format("YYYY-MM-DD"),
           });
@@ -49,153 +57,133 @@ function Write({ setDesc, desc }) {
     }
   };
 
-  // const customUploadAdapter = (loader) => {
-  //   return {
-  //     upload() {
-  //       return new Promise((resolve, reject) => {
-  //         const data = new FormData();
-  //         loader.file.then((file) => {
-  //           data.append("name", file.name);
-  //           data.append("file", file);
-
-  //           axios
-  //             .post("/upload", data)
-  //             .then((res) => {
-  //               if (!flag) {
-  //                 setFlag(true);
-  //                 // setImage(res.data.filename);
-  //               }
-  //               resolve({
-  //                 default: `${res.data.filename}`,
-  //               });
-  //             })
-  //             .catch((err) => reject(err));
-  //         });
-  //       });
-  //     },
-  //   };
-  // };
-
-  // function uploadPlugin(editor) {
-  //   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-  //     return customUploadAdapter(loader);
-  //   };
-  // }
+  const onChangeTitle = (event) => setTitle(event.target.value);
+  const onChangeContents = (event) => {
+    setContents(event.target.value);
+  };
+  const onClickCategory = (event) => {
+    setCat(event.target.innerHTML);
+    setDropCat(!dropCat);
+  };
 
   return (
-    <div className={styles.write}>
-      <div className={styles.content}>
-        <div className={styles.wrap_inner_view}>
-          <div className={styles.dropdown}>
-            <button
-              className={styles.dropbtn}
-              onClick={() => setDropCat(!dropCat)}
-            >
-              <span className={styles.dropbtn_content}>
-                {cat ? cat : "Category"}
-              </span>
-            </button>
-            <div
-              className={
-                dropCat ? `${styles.dropdown_content}` : `${styles.none}`
-              }
-            >
-              <div
-                checked={cat === "react"}
-                name="cat"
-                value="react"
-                onClick={(e) => [
-                  setCat(e.target.innerHTML),
-                  setDropCat(!dropCat),
-                ]}
+    <S.Wrapper>
+      <S.Title>게시글 등록</S.Title>
+
+      <S.WriterWrapper>
+        <S.InputWrapper>
+          {CATEGORY.map((el, index) => (
+            <Fragment key={index}>
+              <ul>
+                <li
+                  onClick={onClickCategory}
+                  name="cat"
+                  checked={cat === el.name}
+                  value={el.name}
+                >
+                  {el.name}
+                </li>
+              </ul>
+            </Fragment>
+          ))}
+          <div className={styles.wrap_inner_view}>
+            <div className={styles.dropdown}>
+              <button
+                className={styles.dropbtn}
+                onClick={() => setDropCat(!dropCat)}
               >
-                react
-              </div>
+                <span className={styles.dropbtn_content}>
+                  {cat ? cat : "Category"}
+                </span>
+              </button>
               <div
-                name="cat"
-                checked={cat === "javascript"}
-                value="javascript"
-                id="javascript"
-                onClick={(e) => [
-                  setCat(e.target.innerHTML),
-                  setDropCat(!dropCat),
-                ]}
+                className={
+                  dropCat ? `${styles.dropdown_content}` : `${styles.none}`
+                }
               >
-                javascript
-              </div>
-              <div
-                checked={cat === "nodejs"}
-                name="cat"
-                value="nodejs"
-                id="nodejs"
-                onClick={(e) => [
-                  setCat(e.target.innerHTML),
-                  setDropCat(!dropCat),
-                ]}
-              >
-                nodejs
-              </div>
-              <div
-                checked={cat === "aws"}
-                name="cat"
-                value="aws"
-                id="aws"
-                onClick={(e) => [
-                  setCat(e.target.innerHTML),
-                  setDropCat(!dropCat),
-                ]}
-              >
-                aws
-              </div>
-              <div
-                checked={cat === "mysql"}
-                name="cat"
-                value="mysql"
-                id="mysql"
-                onClick={(e) => [
-                  setCat(e.target.innerHTML),
-                  setDropCat(!dropCat),
-                ]}
-              >
-                mysql
+                <div
+                  checked={cat === "react"}
+                  name="cat"
+                  value="react"
+                  onClick={onClickCategory}
+                >
+                  react
+                </div>
+                <div
+                  name="cat"
+                  checked={cat === "javascript"}
+                  value="javascript"
+                  id="javascript"
+                  onClick={onClickCategory}
+                >
+                  javascript
+                </div>
+                <div
+                  checked={cat === "nodejs"}
+                  name="cat"
+                  value="nodejs"
+                  id="nodejs"
+                  onClick={onClickCategory}
+                >
+                  nodejs
+                </div>
+                <div
+                  checked={cat === "aws"}
+                  name="cat"
+                  value="aws"
+                  id="aws"
+                  onClick={onClickCategory}
+                >
+                  aws
+                </div>
+                <div
+                  checked={cat === "mysql"}
+                  name="cat"
+                  value="mysql"
+                  id="mysql"
+                  onClick={onClickCategory}
+                >
+                  mysql
+                </div>
               </div>
             </div>
           </div>
-          <input
+        </S.InputWrapper>
+        <S.InputWrapper>
+          <S.Label>제목</S.Label>
+          <S.Subject
             type="text"
-            placeholder="Title"
+            placeholder="제목을 입력해주세여"
             className={styles.post_title}
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={onChangeTitle}
           />
-        </div>
-        <div className={styles.editorContainer}>
-          <CKEditor
-            editor={ClassicEditor}
-            config={{
-              placeholder: "내용을 입력하세요.",
-            }}
-            data={value}
-            onReady={(editor) => {}}
-            onChange={(event, editor) => {
-              const desc = editor.getData();
-              setValue(desc);
-            }}
-            onBlur={(event, editor) => {}}
-            onFocus={(event, editor) => {}}
-          />
-        </div>
-      </div>
-      <div className={styles.buttons}>
-        {/* <button className={styles.btn} onClick={handleClick}>
-          이미지 업로드 기능 미구현
-        </button> */}
+        </S.InputWrapper>
+      </S.WriterWrapper>
 
-        <button className={styles.btn} onClick={handleClick}>
+      <S.InputWrapper>
+        <S.Label>내용</S.Label>
+        <S.Contents
+          type="text"
+          placeholder="내용을 입력해주세여"
+          className={styles.post_title}
+          value={contents}
+          onChange={onChangeContents}
+        />
+      </S.InputWrapper>
+
+      <S.ImageWrapper>
+        <S.Label>사진첨부</S.Label>
+        <S.UploadButton>+</S.UploadButton>
+        <S.UploadButton>+</S.UploadButton>
+        <S.UploadButton>+</S.UploadButton>
+      </S.ImageWrapper>
+      <S.ButtonWrapper>
+        <S.SubmitButton className={styles.btn} onClick={handleClick}>
           저장하기
-        </button>
-      </div>
-    </div>
+        </S.SubmitButton>
+      </S.ButtonWrapper>
+    </S.Wrapper>
   );
 }
 

@@ -21,7 +21,8 @@ export const addComment = (req, res) => {
   jwt.verify(token, "jwtkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    const q = "INSERT INTO comments(`desc`, `date`, `userId`, `postId`) VALUES (?)";
+    const q =
+      "INSERT INTO comments(`desc`, `date`, `userId`, `postId`) VALUES (?)";
     const values = [req.body.desc, req.body.date, userInfo.id, req.body.postId];
 
     db.query(q, [values], (err, data) => {
@@ -45,6 +46,23 @@ export const deleteComment = (req, res) => {
       if (err) return res.status(500).json(err);
       if (data.affectedRows > 0) return res.json("Comment has been deleted!");
       return res.status(403).json("자신의 글만 삭제가 가능합니다.");
+    });
+  });
+};
+
+export const updateComment = function (req, res) {
+  const token = req.cookies.auth_token;
+  if (!token) return res.status(401).json("Not authenticated!");
+
+  jwt.verify(token, "jwtkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    const commentId = req.params.id;
+    const q = "UPDATE posts SET `desc`=?, WHERE `id` = ? AND `uid` = ?";
+
+    db.query(q, [req.body.desc, commentId, userInfo.id], (err, data) => {
+      if (err) return res.status(403).json(err);
+      return res.json("Post has been updated.");
     });
   });
 };

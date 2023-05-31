@@ -22,7 +22,7 @@ function Comment({ postId }) {
   const [postPerPage] = useState(10); //페이지당 아이템 개수
   const [indexOfLastPost, setIndexOfLastPost] = useState(0);
   const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
-  const [currentPosts, setCurrentPosts] = useState(0);
+  const [currentPosts, setCurrentPosts] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,7 +119,6 @@ function Comment({ postId }) {
           </ul>
         )}
       </div>
-      <CommentPaging page={currentpage} count={count} setPage={setPage} />
     </div>
   );
 }
