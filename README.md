@@ -11,16 +11,17 @@
 
 ## Back-End
 * Nodejs
- *  JWT
- *  Express
- *  
+   *  JWT,bcrypt
+   *  Express
 ## DateBase
 * Mysql
 
 # CI/CD
 * Jenkins
 
-# 로그인, 회원가입 기능  
+# 로그인, 회원가입 기능 
+
+로그인 과 회원가입 기능은  Jwt(Json Web Toke) 
 
 # 페이지네이션
 
