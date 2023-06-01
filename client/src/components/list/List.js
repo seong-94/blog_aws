@@ -1,12 +1,18 @@
-import axios from "axios";
+// Hooks
 import React, { useState, useEffect } from "react";
+// react-router-dom
 import { Link, useLocation } from "react-router-dom";
-import Paging from "../pagination/Paging";
-import moment from "moment";
-import styles from "./List.module.scss";
-import { AiOutlineEye, AiOutlineHeart, AiOutlineComment } from "react-icons/ai";
-import SearchBar from "commons/searchbar/SearchBar";
+// import components
 import { getDate } from "commons/libraries/utils";
+import Paging from "../../commons/pagination/Paging";
+import SearchBar from "commons/searchbar/SearchBar";
+// axios
+import axios from "axios";
+// emotion
+import * as S from "./ListStyles";
+// react-icons
+import { AiOutlineEye, AiOutlineHeart, AiOutlineComment } from "react-icons/ai";
+
 function List({ listPerPage }) {
   //get posts
   const [posts, setPosts] = useState([]);
@@ -69,51 +75,53 @@ function List({ listPerPage }) {
   const setPage = (e) => {
     setCurrentpage(e);
   };
+
+  // console.log(posts);
   return (
-    <div className={styles.board_list}>
-      <div className={styles.container}>
+    <S.Wrapper>
+      <>
         {currentPosts && posts.length > 0 ? (
           currentPosts.map((post) => (
-            <div key={post.id}>
-              <ul className={styles.list}>
-                <li key={post.id}>
+            <S.InnerWrapper key={post.id}>
+              <S.ListWrapper>
+                <S.List key={post.id}>
                   <Link to={`/post/${post.posts_id}`}>
                     <h3>
-                      <span className={styles.catname}>[{post.cat}]</span>
-                      <span className={styles.title}>{post.title}</span>
+                      <S.CategoryName>[{post.cat}]</S.CategoryName>
+                      <S.ListTitle>{post.title}</S.ListTitle>
                     </h3>
                   </Link>
                   <h4>
-                    <span>{post.username}</span>
-                    <span>{getDate(post.date)} </span>
-                    <span>
+                    <S.ListTItem>{post.username}</S.ListTItem>
+                    <S.ListTItem>{getDate(post.date)} </S.ListTItem>
+                    <S.ListTItem>
                       <AiOutlineEye />
-                    </span>
-                    <span>{post.view}</span>
-                    <span>
+                    </S.ListTItem>
+                    <S.ListTItem>{post.view}</S.ListTItem>
+                    <S.ListTItem>
                       <AiOutlineComment />
-                    </span>
-                    <span>{post.comments}</span>
-                    <span>
+                    </S.ListTItem>
+                    <S.ListTItem>{post.comments}</S.ListTItem>
+                    <S.ListTItem>
                       <AiOutlineHeart />
-                    </span>
-                    <span>{post.likes}</span>
+                    </S.ListTItem>
+                    <S.ListTItem>{post.likes}</S.ListTItem>
                   </h4>
-                </li>
-              </ul>
-            </div>
+                </S.List>
+              </S.ListWrapper>
+            </S.InnerWrapper>
           ))
         ) : (
           <></>
         )}
-      </div>
+      </>
       <Paging page={currentpage} count={count} setPage={setPage} />
       <SearchBar
         onChangeSearch={onChangeSearch}
         search={search}
         onSearch={onSearch}
       />
-    </div>
+    </S.Wrapper>
   );
 }
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import { AuthContext } from "context/authContext";
 import { useState, useContext } from "react";
 import * as S from "./CommentWriteStyles";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import moment from "moment";
 
 export default function CommentWrite({ postId, isEdit, setIsEdit }) {
@@ -10,7 +10,6 @@ export default function CommentWrite({ postId, isEdit, setIsEdit }) {
   const { currentUser } = useContext(AuthContext);
   const [desc, setDesc] = useState("");
   const username = currentUser ? currentUser.username : null;
-  const navigate = useNavigate();
 
   const onHandleSubmit = async (e) => {
     e.preventDefault();
@@ -32,18 +31,18 @@ export default function CommentWrite({ postId, isEdit, setIsEdit }) {
     }
   };
 
-  const onHandleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(`/posts/${state.id}`, {
-        desc: desc,
-      });
+  // const onHandleUpdate = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await axios.put(`/posts/${state.id}`, {
+  //       desc: desc,
+  //     });
 
-      alert("성공적으로 입력돼었습니다.");
-    } catch (err) {
-      alert(err);
-    }
-  };
+  //     alert("성공적으로 입력돼었습니다.");
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  // };
 
   const onChangeContents = (event) => {
     setDesc(event.target.value);
@@ -51,23 +50,23 @@ export default function CommentWrite({ postId, isEdit, setIsEdit }) {
   const onClickCancle = (event) => {
     setIsEdit(!isEdit);
   };
-  const handleClick = async (e) => {
-    e.preventDefault();
-    if (desc === "") {
-      return;
-    }
-    try {
-      await axios.post(`/comments`, {
-        postId,
-        name: username,
-        desc: desc,
-        date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-      });
-      window.location.replace(`/post/${postId}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const handleClick = async (e) => {
+  //   e.preventDefault();
+  //   if (desc === "") {
+  //     return;
+  //   }
+  //   try {
+  //     await axios.post(`/comments`, {
+  //       postId,
+  //       name: username,
+  //       desc: desc,
+  //       date: moment(Date.now()),
+  //     });
+  //     window.location.replace(`/post/${postId}`);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   return (
     <>
       <S.Wrapper>

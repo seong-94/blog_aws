@@ -1,4 +1,4 @@
-import { SliderItem, Wrapper } from "./LayoutBanner.styles";
+import { SliderItem, Wrapper } from "./LayoutBannerStyles";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

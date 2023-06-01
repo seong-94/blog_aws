@@ -4,9 +4,13 @@ import {
   InnerLogo,
   InnerWrapper,
   Wrapper,
-} from "./LayoutHeader.styles";
+} from "./LayoutHeaderStyles";
+import { AuthContext } from "context/authContext";
+import { useContext } from "react";
 
 export default function LayoutHeader() {
+  const currentUser = useContext(AuthContext);
+
   return (
     <Wrapper>
       <InnerWrapper>

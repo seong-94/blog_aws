@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import * as S from "./SearchBarStyles";
 import { BsPencil } from "react-icons/bs";
+
 export default function SearchBar(props) {
   return (
     <>

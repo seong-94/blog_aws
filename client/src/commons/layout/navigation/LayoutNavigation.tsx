@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { MenuItem, Wrapper } from "./LayoutNavigation.styles";
+import { MenuItem, Wrapper } from "./LayoutNavigationStyles";
 import { Link } from "react-router-dom";
 
 const NAVIGATION_MENUS = [

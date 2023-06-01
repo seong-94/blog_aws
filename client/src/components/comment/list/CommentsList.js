@@ -3,7 +3,7 @@ import { AuthContext } from "../../../context/authContext";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import * as S from "./CommentListStyles";
 // scss
-import CommentPaging from "../../pagination/CommentPaging.js";
+import CommentPaging from "../../../commons/pagination/CommentPaging.js";
 
 import moment from "moment";
 import axios from "axios";
@@ -13,7 +13,7 @@ import CommentWrite from "../Write/CommentWrite";
 
 export default function CommentList({ postId }) {
   const { currentUser } = useContext(AuthContext);
-  const userid = currentUser ? currentUser.id : null;
+  // const userid = currentUser ? currentUser.id : null;
   const username = currentUser ? currentUser.name : null;
   const [desc, setDesc] = useState("");
   const [getComment, setGetComment] = useState([]);
@@ -38,26 +38,26 @@ export default function CommentList({ postId }) {
     fetchData();
   }, [postId]);
 
-  const onHandleSubmit = async (e) => {
-    e.preventDefault();
-    if (desc === "") {
-      alert("내용을 입력해주세요");
-      return;
-    }
-    try {
-      await axios.post(`/comments`, {
-        postId,
-        name: username,
-        desc: desc,
-        date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-      });
-      window.location.replace(`/post/${postId}`);
-      alert("댓글 성공적으로 입력돼었습니다.");
-    } catch (err) {
-      alert(err.request.responseText);
-      console.log(err);
-    }
-  };
+  // const onHandleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (desc === "") {
+  //     alert("내용을 입력해주세요");
+  //     return;
+  //   }
+  //   try {
+  //     await axios.post(`/comments`, {
+  //       postId,
+  //       name: username,
+  //       desc: desc,
+  //       date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+  //     });
+  //     window.location.replace(`/post/${postId}`);
+  //     alert("댓글 성공적으로 입력돼었습니다.");
+  //   } catch (err) {
+  //     alert(err.request.responseText);
+  //     console.log(err);
+  //   }
+  // };
 
   const handleDeleteClick = async (e, id) => {
     e.preventDefault();
@@ -69,9 +69,6 @@ export default function CommentList({ postId }) {
       alert(err.request.responseText);
       console.log(err);
     }
-  };
-  const onChageContents = (event) => {
-    setDesc(event.target.value);
   };
 
   useEffect(() => {

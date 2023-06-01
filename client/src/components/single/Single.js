@@ -9,7 +9,7 @@ import { AiOutlineEye, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import axios from "axios";
 
 import * as S from "./SingleStyle";
-import { getDate } from "commons/libraries/utils";
+import { getDate, getText } from "commons/libraries/utils";
 import Comment from "components/comment/list/CommentsList";
 
 export default function Single() {
@@ -104,7 +104,7 @@ export default function Single() {
         </S.Header>
         <S.Body>
           <S.Title>{post?.title}</S.Title>
-          <S.Contents dangerouslySetInnerHTML={{ __html: post.desc }} />
+          <S.Contents>{getText(post.desc)}</S.Contents>
           <S.LikeWrapper>
             <S.IconWrapper>
               {heartShift ? (

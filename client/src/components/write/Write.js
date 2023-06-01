@@ -4,25 +4,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 //axios
 import axios from "axios";
-
+//import component
+import { getText } from "commons/libraries/utils";
 //time
 import moment from "moment";
 
-//scss
-import styles from "./Write.module.scss";
-// react -toast
-import { toast } from "react-toastify";
-
+//emotion
 import * as S from "./WriteStyles";
-import { Fragment } from "react";
-
-const CATEGORY = [
-  { name: "react" },
-  { name: "javascript" },
-  { name: "nodejs" },
-  { name: "aws" },
-  { name: "mysql" },
-];
 
 function Write({ setDesc, desc }) {
   const state = useLocation().state;
@@ -36,7 +24,7 @@ function Write({ setDesc, desc }) {
     e.preventDefault();
     try {
       state
-        ? await axios.put(`/posts/${state.id}`, {
+        ? await axios.put(`/posts/${state.posts_id}`, {
             title,
             desc: contents,
             cat,
@@ -48,17 +36,20 @@ function Write({ setDesc, desc }) {
             date: moment(Date.now()).format("YYYY-MM-DD"),
           });
       navigate("/");
-      toast.success("업로드 성공하였습니다.");
+      alert("업로드를 성공하였습니다.");
     } catch (err) {
-      toast.error(err.request);
-      console.log(err);
+      alert("업로드를 실패하였습니다.");
     }
   };
 
-  const onChangeTitle = (event) => setTitle(event.target.value);
+  const onChangeTitle = (event) => {
+    setTitle(event.target.value);
+  };
+
   const onChangeContents = (event) => {
     setContents(event.target.value);
   };
+
   const onClickCategory = (event) => {
     setCat(event.target.innerHTML);
     setDropCat(!dropCat);
@@ -70,89 +61,68 @@ function Write({ setDesc, desc }) {
 
       <S.WriterWrapper>
         <S.InputWrapper>
-          {CATEGORY.map((el, index) => (
-            <Fragment key={index}>
-              <ul>
-                <li
-                  onClick={onClickCategory}
-                  name="cat"
-                  checked={cat === el.name}
-                  value={el.name}
-                >
-                  {el.name}
-                </li>
-              </ul>
-            </Fragment>
-          ))}
-          {/* <div className={styles.wrap_inner_view}>
-            <div className={styles.dropdown}>
-              <button
-                className={styles.dropbtn}
-                onClick={() => setDropCat(!dropCat)}
-              >
-                <span className={styles.dropbtn_content}>
-                  {cat ? cat : "Category"}
-                </span>
-              </button>
-              <div
-                className={
-                  dropCat ? `${styles.dropdown_content}` : `${styles.none}`
-                }
-              >
-                <div
+          <S.CategoryWrapper>
+            <S.CategoryButton onClick={() => setDropCat(!dropCat)}>
+              <S.DropContent>{cat ? cat : "Category"}</S.DropContent>
+            </S.CategoryButton>
+            {dropCat ? (
+              <S.DropDownContent>
+                <S.DropDownItems
                   checked={cat === "react"}
                   name="cat"
                   value="react"
                   onClick={onClickCategory}
                 >
-                  react
-                </div>
-                <div
+                  React
+                </S.DropDownItems>
+                <S.DropDownItems
                   name="cat"
                   checked={cat === "javascript"}
                   value="javascript"
                   id="javascript"
                   onClick={onClickCategory}
                 >
-                  javascript
-                </div>
-                <div
+                  Javascript
+                </S.DropDownItems>
+                <S.DropDownItems
                   checked={cat === "nodejs"}
                   name="cat"
                   value="nodejs"
                   id="nodejs"
                   onClick={onClickCategory}
                 >
-                  nodejs
-                </div>
-                <div
+                  Nodejs
+                </S.DropDownItems>
+                <S.DropDownItems
                   checked={cat === "aws"}
                   name="cat"
                   value="aws"
                   id="aws"
                   onClick={onClickCategory}
                 >
-                  aws
-                </div>
-                <div
+                  AWS
+                </S.DropDownItems>
+                <S.DropDownItems
                   checked={cat === "mysql"}
                   name="cat"
                   value="mysql"
                   id="mysql"
                   onClick={onClickCategory}
                 >
-                  mysql
-                </div>
-              </div>
-            </div>
-          </div> */}
+                  Mysql
+                </S.DropDownItems>
+              </S.DropDownContent>
+            ) : (
+              <></>
+            )}
+          </S.CategoryWrapper>
         </S.InputWrapper>
+
         <S.InputWrapper>
           <S.Label>제목</S.Label>
           <S.Subject
             type="text"
             placeholder="제목을 입력해주세여"
-            className={styles.post_title}
             value={title}
             onChange={onChangeTitle}
           />
@@ -164,8 +134,7 @@ function Write({ setDesc, desc }) {
         <S.Contents
           type="text"
           placeholder="내용을 입력해주세여"
-          className={styles.post_title}
-          value={contents}
+          value={getText(contents)}
           onChange={onChangeContents}
         />
       </S.InputWrapper>
@@ -177,9 +146,7 @@ function Write({ setDesc, desc }) {
         <S.UploadButton>+</S.UploadButton>
       </S.ImageWrapper>
       <S.ButtonWrapper>
-        <S.SubmitButton className={styles.btn} onClick={handleClick}>
-          저장하기
-        </S.SubmitButton>
+        <S.SubmitButton onClick={handleClick}>저장하기</S.SubmitButton>
       </S.ButtonWrapper>
     </S.Wrapper>
   );

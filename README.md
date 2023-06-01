@@ -1,25 +1,42 @@
 # blog_aws
 
+## Front-End
 
-# Todo List
+- Javascript
+  - Emotion.js
+  - Axios
+  - Moment
+  - React-router-dom
+- TypeScript
 
-1. 아이디 비밀 번호 찾기
+## Back-End
 
-2. 모바일 CSS
+- Nodejs
+  - JWT,bcrypt
+  - Express
 
-<!-- 2. 이미지 삽입 기능 (ck editor 5) multer 아용 -->
+## DateBase
 
-# 현재 완성됀 기능
+- Mysql
 
-1. 로그인
-2. 페이지네이션
-3. 검색
-4. register
-5. post(upload)
-6. 글 삭제 변경하는 기능
-7. 조회수 기능
-8. 카테 고리 기능
-9. Css 완성하기
-10. 댓글 기능 추가 ( 대댓글 가능하면)
-11. aws 업로드
-12. 댓글 페이지네이션
+# CI/CD
+
+- Jenkins
+
+# 로그인, 회원가입 기능
+
+로그인 과 회원가입 기능은 Jwt(Json Web Toke)
+
+# 페이지네이션
+
+# 검색창
+
+# 글 삭제 변경하는 기능
+
+# 조회수 기능
+
+# Css 완성하기
+
+# 댓글 기능 추가
+
+# aws 업로드

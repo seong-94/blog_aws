@@ -90,13 +90,12 @@ export const updatePost = function (req, res) {
 
   jwt.verify(token, "jwtkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
-
     const postId = req.params.id;
     const q =
-      "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
+      "UPDATE posts SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `posts_id` = ? AND `uid` = ?";
 
     const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
-
+    // 현재 이미지 추가 기능은 추후에 추가 예정 없는 이미지를 넣었기때문에 업데이트 기능에 문제가 생김.
     db.query(q, [...values, postId, userInfo.id], (err, data) => {
       if (err) return res.status(403).json(err);
       return res.json("Post has been updated.");

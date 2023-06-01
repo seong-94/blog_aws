@@ -69,21 +69,6 @@ export const Contents = styled.textarea`
   border: 1px solid #bdbdbd;
 `;
 
-export const Address = styled.input`
-  width: 996px;
-  height: 52px;
-  margin-top: 16px;
-  padding-left: 16px;
-  border: 1px solid #bdbdbd;
-`;
-
-export const Youtube = styled.input`
-  width: 996px;
-  height: 52px;
-  padding-left: 16px;
-  border: 1px solid #bdbdbd;
-`;
-
 export const ImageWrapper = styled.div`
   width: 996px;
   padding-top: 40px;
@@ -127,9 +112,10 @@ export const SubmitButton = styled.button`
   margin-left: 12px;
   margin-right: 12px;
   cursor: pointer;
+  :hover {
+    background-color: #bdbdbd;
+  }
 `;
-//   background-color: ${(props: ISubmitButtonProps) =>
-//   props.isActive ? "yellow" : "none"};
 
 export const Error = styled.div`
   padding-top: 10px;
@@ -140,4 +126,57 @@ export const LikeButton = styled.button`
   padding: 8px;
   border-radius: 8px;
   border: 0.5px solid #999;
+`;
+export const CategoryWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+export const CategoryButton = styled.button`
+  position: relative;
+  margin-top: 40px;
+  /* margin-left: 10px; */
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #efefef;
+  font-weight: 500;
+  width: 130px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  z-index: 1;
+  :hover {
+    background-color: #a2a2a2;
+  }
+`;
+
+export const None = styled.div`
+  display: none;
+`;
+export const DropContent = styled.span``;
+
+export const DropDownContent = styled.div`
+  position: absolute;
+  overflow-x: hidden;
+  z-index: 1;
+  font-weight: 400;
+  background-color: #fcfcfc;
+  min-width: 130px;
+  border-radius: 8px;
+  height: 160px;
+  overflow: scroll;
+  box-shadow: 0px 0px 10px 3px rgba(190, 190, 190, 0.6);
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+`;
+export const DropDownItems = styled.div`
+  display: block;
+  text-decoration: none;
+  color: rgb(37, 37, 37);
+  font-size: 1rem;
+  padding: 12px 0 0 20px;
+  cursor: pointer;
 `;
