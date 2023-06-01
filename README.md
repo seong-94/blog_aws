@@ -3,10 +3,10 @@
 
 ## Front-End
 * Javascript
- * Emotion.js
- * Axios
- * Moment
- * React-router-dom
+ ** Emotion.js
+ ** Axios
+ ** Moment
+ ** React-router-dom
 * TypeScript
 
 ## Back-End
