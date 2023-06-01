@@ -41,10 +41,13 @@ export const deleteComment = (req, res) => {
 
     const commentId = req.params.id;
     const q = "DELETE FROM comments WHERE `comments_id` = ? AND `userId` = ?";
-
     db.query(q, [commentId, userInfo.id], (err, data) => {
-      if (err) return res.status(500).json(err);
-      if (data.affectedRows > 0) return res.json("Comment has been deleted!");
+      if (err) {
+        return res.status(500).json(err);
+      }
+      if (data.affectedRows > 0) {
+        return res.json("Comment has been deleted!");
+      }
       return res.status(403).json("자신의 글만 삭제가 가능합니다.");
     });
   });

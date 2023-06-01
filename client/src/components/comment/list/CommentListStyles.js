@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { AiFillAccountBook } from "react-icons/ai";
+
 export const ItemWrapper = styled.div`
-  width: 1200px;
+  width: 1000px;
   margin: 0px auto;
   padding-top: 20px;
-  height: 128px;
+  height: 100px;
   border-bottom: 1px solid lightgray;
 `;
 

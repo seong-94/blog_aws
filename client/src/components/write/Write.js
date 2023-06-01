@@ -31,8 +31,6 @@ function Write({ setDesc, desc }) {
   const [cat, setCat] = useState(state?.cat || "react");
   const [dropCat, setDropCat] = useState(false);
   const navigate = useNavigate();
-  // const [image, setImage] = useState(null);
-  // const [flag, setFlag] = useState(false);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -86,7 +84,7 @@ function Write({ setDesc, desc }) {
               </ul>
             </Fragment>
           ))}
-          <div className={styles.wrap_inner_view}>
+          {/* <div className={styles.wrap_inner_view}>
             <div className={styles.dropdown}>
               <button
                 className={styles.dropbtn}
@@ -147,7 +145,7 @@ function Write({ setDesc, desc }) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </S.InputWrapper>
         <S.InputWrapper>
           <S.Label>제목</S.Label>

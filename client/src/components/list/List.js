@@ -5,6 +5,8 @@ import Paging from "../pagination/Paging";
 import moment from "moment";
 import styles from "./List.module.scss";
 import { AiOutlineEye, AiOutlineHeart, AiOutlineComment } from "react-icons/ai";
+import SearchBar from "commons/searchbar/SearchBar";
+import { getDate } from "commons/libraries/utils";
 function List({ listPerPage }) {
   //get posts
   const [posts, setPosts] = useState([]);
@@ -40,7 +42,7 @@ function List({ listPerPage }) {
     e.preventDefault();
     setSearch(e.target.value);
   };
-  // console.log(posts);
+
   const onSearch = (e) => {
     e.preventDefault();
     if (search === null || search === "") {
@@ -83,7 +85,7 @@ function List({ listPerPage }) {
                   </Link>
                   <h4>
                     <span>{post.username}</span>
-                    <span>{moment(post.date).format("YYYY-MM-DD")} </span>
+                    <span>{getDate(post.date)} </span>
                     <span>
                       <AiOutlineEye />
                     </span>
@@ -106,30 +108,11 @@ function List({ listPerPage }) {
         )}
       </div>
       <Paging page={currentpage} count={count} setPage={setPage} />
-      <div className={styles.board_search}>
-        <div className={styles.container}>
-          <div className={styles.search_window}>
-            <form onSubmit={(e) => onSearch(e)}>
-              <input
-                id={styles.search}
-                type="text"
-                maxLength="20"
-                value={search}
-                className={styles.search_input}
-                placeholder="검색어를 입력해주세요."
-                onChange={onChangeSearch}
-              />
-              <button
-                type="submit"
-                value="검색"
-                className={`${styles.btn} ${styles.btn_dark}`}
-              >
-                검색
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+      <SearchBar
+        onChangeSearch={onChangeSearch}
+        search={search}
+        onSearch={onSearch}
+      />
     </div>
   );
 }

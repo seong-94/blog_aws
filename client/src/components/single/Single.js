@@ -120,19 +120,19 @@ export default function Single() {
               )}
             </S.IconWrapper>
           </S.LikeWrapper>
+          <S.BottomWrapper>
+            <S.Button>
+              <Link to="/">목록으로</Link>
+            </S.Button>
+            <S.Button>
+              <Link to="/write?edit=2" state={post}>
+                수정하기
+              </Link>
+            </S.Button>
+            <S.Button onClick={handleDelete}>삭제하기</S.Button>
+          </S.BottomWrapper>
         </S.Body>
       </S.CardWrapper>
-      <S.BottomWrapper>
-        <S.Button>
-          <Link to="/">목록으로</Link>
-        </S.Button>
-        <S.Button>
-          <Link to="/write?edit=2" state={post}>
-            수정하기
-          </Link>
-        </S.Button>
-        <S.Button onClick={handleDelete}>삭제하기</S.Button>
-      </S.BottomWrapper>
       <Comment postId={postId} />
     </S.Wrapper>
   );

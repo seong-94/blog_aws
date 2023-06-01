@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 // import ReactPlayer from "react-player";
 
 export const Wrapper = styled.div`
-  width: 1200px;
+  width: 1000px;
   margin: 50px auto;
 `;
 
@@ -58,7 +58,7 @@ export const PostViews = styled.div`
 
 export const Body = styled.div`
   width: 100%;
-  height: 700px;
+  height: 800px;
 `;
 
 export const Title = styled.h1`
@@ -68,9 +68,9 @@ export const Title = styled.h1`
 `;
 
 export const Contents = styled.div`
-  min-height: 300px;
-  padding-top: 40px;
-  padding-bottom: 120px;
+  min-height: 500px;
+  /* padding-top: 40px;  */
+  /* padding-bottom: 120px; */
 `;
 
 export const BottomWrapper = styled.div`
@@ -102,10 +102,6 @@ export const Button = styled.button`
 export const IconWrapper = styled.div`
   text-align: center;
 `;
-
-// export const Youtube = styled(ReactPlayer)`
-//   margin: auto;
-// `;
 
 export const LikeWrapper = styled.div`
   padding-top: 100px;

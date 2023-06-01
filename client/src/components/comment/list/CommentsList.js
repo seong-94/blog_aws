@@ -7,9 +7,9 @@ import CommentPaging from "../../pagination/CommentPaging.js";
 
 import moment from "moment";
 import axios from "axios";
-// react toastify
-import { toast } from "react-toastify";
+
 import CommentListItem from "./CommentListItem";
+import CommentWrite from "../Write/CommentWrite";
 
 export default function CommentList({ postId }) {
   const { currentUser } = useContext(AuthContext);
@@ -41,7 +41,7 @@ export default function CommentList({ postId }) {
   const onHandleSubmit = async (e) => {
     e.preventDefault();
     if (desc === "") {
-      toast.error("내용을 입력해주세요");
+      alert("내용을 입력해주세요");
       return;
     }
     try {
@@ -52,9 +52,9 @@ export default function CommentList({ postId }) {
         date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       });
       window.location.replace(`/post/${postId}`);
-      toast.success("댓글 성공");
+      alert("댓글 성공적으로 입력돼었습니다.");
     } catch (err) {
-      toast.error(err.request.responseText);
+      alert(err.request.responseText);
       console.log(err);
     }
   };
@@ -63,16 +63,15 @@ export default function CommentList({ postId }) {
     e.preventDefault();
     try {
       await axios.delete(`/comments/${id}}`);
-      toast.success("댓글 이 삭제 돼었습니다.");
+      alert("댓글 이 삭제 돼었습니다.");
       window.location.replace(`/post/${postId}`);
     } catch (err) {
-      toast.error(err.request.responseText);
+      alert(err.request.responseText);
       console.log(err);
     }
   };
   const onChageContents = (event) => {
     setDesc(event.target.value);
-    console.log(event.target.value);
   };
 
   useEffect(() => {
@@ -83,18 +82,7 @@ export default function CommentList({ postId }) {
   }, [currentpage, indexOfFirstPost, indexOfLastPost, getComment, postPerPage]);
   return (
     <>
-      {/* <div className={styles.comment_count}>
-        댓글 <span>{getComment.length}</span>
-      </div>
-      <div className={styles.write}>
-        <input
-          type="text"
-          placeholder="내용을 입력해주세요"
-          value={desc}
-          onChange={onChageContents}
-        />
-        <button onClick={onHandleSubmit}>등록</button>
-      </div> */}
+      <CommentWrite postId={postId} desc={desc} />
       {getComment.map((comment) => (
         <CommentListItem comment={comment} postId={postId} />
       ))}
