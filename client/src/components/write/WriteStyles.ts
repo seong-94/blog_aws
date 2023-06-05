@@ -61,7 +61,7 @@ export const Subject = styled.input`
   border: 1px solid #bdbdbd;
 `;
 
-export const Contents = styled.textarea`
+export const Contents = styled.textarea<{ type: string }>`
   width: 996px;
   height: 480px;
   padding-left: 16px;
@@ -172,7 +172,11 @@ export const DropDownContent = styled.div`
     height: 10px;
   }
 `;
-export const DropDownItems = styled.div`
+export const DropDownItems = styled.div<{
+  checked: boolean;
+  name: string;
+  value: string;
+}>`
   display: block;
   text-decoration: none;
   color: rgb(37, 37, 37);

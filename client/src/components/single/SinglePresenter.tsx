@@ -23,7 +23,7 @@ export default function Single() {
   const [heartShift, setHeartShift] = useState(likes.includes(userid));
 
   const postId = location.pathname.split("/")[2];
-  console.log(typeof userid);
+
   useEffect(() => {
     const fetchData = async () => {
       try {

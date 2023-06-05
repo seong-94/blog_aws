@@ -19,13 +19,14 @@
 
 - Mysql
 
-# CI/CD
+## CI/CD
 
 - Jenkins
 
 # 로그인, 회원가입 기능
 
-로그인 과 회원가입 기능은 Jwt(Json Web Toke)
+로그인 과 회원가입 기능은 Jwt(Json Web Toke) 와 Bcrypt 사용하여 보안체계를 구축하였습니다.
+그
 
 # 페이지네이션
 

@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/authContext";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import * as S from "./CommentListStyles";
-// scss
-import CommentPaging from "../../../commons/pagination/CommentPaging.js";
+// import * as S from "./CommentListStyles";
 
-import moment from "moment";
 import axios from "axios";
 
 import CommentListItem from "./CommentListItem";
@@ -77,6 +73,7 @@ export default function CommentList({ postId }) {
     setIndexOfFirstPost(indexOfLastPost - postPerPage);
     setCurrentPosts(getComment.slice(indexOfFirstPost, indexOfLastPost));
   }, [currentpage, indexOfFirstPost, indexOfLastPost, getComment, postPerPage]);
+
   return (
     <>
       <CommentWrite postId={postId} desc={desc} />

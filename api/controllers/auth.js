@@ -64,11 +64,3 @@ export const logout = (req, res) => {
   });
   res.redirect(`/`);
 };
-
-// export const getname = (req, res) => {
-//   const q = "SELECT `id`, `username` FROM users ";
-//   db.query(q, [req.body.username], (err, data) => {
-//     if (err) return res.status(500).send(err);
-//     return res.status(200).json(data);
-//   });
-// };

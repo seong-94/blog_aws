@@ -1,7 +1,9 @@
 //routers
 import { useLocation, useNavigate } from "react-router-dom";
 //hooks
-import React, { useState } from "react";
+import { ChangeEvent, useState } from "react";
+//event types
+import { MouseEvent } from "react";
 //axios
 import axios from "axios";
 //import component
@@ -12,7 +14,15 @@ import moment from "moment";
 //emotion
 import * as S from "./WriteStyles";
 
-function Write({ setDesc, desc }) {
+const CATEGORY = [
+  { name: "React" },
+  { name: "Javascript" },
+  { name: "Nodejs" },
+  { name: "Aws" },
+  { name: "Mysql" },
+];
+
+export default function Write(): JSX.Element {
   const state = useLocation().state;
   const [title, setTitle] = useState(state?.title || "");
   const [contents, setContents] = useState(state?.desc || "");
@@ -20,8 +30,10 @@ function Write({ setDesc, desc }) {
   const [dropCat, setDropCat] = useState(false);
   const navigate = useNavigate();
 
-  const handleClick = async (e) => {
-    e.preventDefault();
+  const handleClick = async (
+    event: MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    event.preventDefault();
     try {
       state
         ? await axios.put(`/posts/${state.posts_id}`, {
@@ -42,23 +54,22 @@ function Write({ setDesc, desc }) {
     }
   };
 
-  const onChangeTitle = (event) => {
+  const onChangeTitle = (event: ChangeEvent<HTMLInputElement>): void => {
     setTitle(event.target.value);
   };
 
-  const onChangeContents = (event) => {
+  const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     setContents(event.target.value);
   };
 
-  const onClickCategory = (event) => {
-    setCat(event.target.innerHTML);
+  const onClickCategory = (event: MouseEvent<HTMLDivElement>): void => {
+    setCat(event.currentTarget.innerHTML);
     setDropCat(!dropCat);
   };
 
   return (
     <S.Wrapper>
       <S.Title>게시글 등록</S.Title>
-
       <S.WriterWrapper>
         <S.InputWrapper>
           <S.CategoryWrapper>
@@ -67,57 +78,22 @@ function Write({ setDesc, desc }) {
             </S.CategoryButton>
             {dropCat ? (
               <S.DropDownContent>
-                <S.DropDownItems
-                  checked={cat === "react"}
-                  name="cat"
-                  value="react"
-                  onClick={onClickCategory}
-                >
-                  React
-                </S.DropDownItems>
-                <S.DropDownItems
-                  name="cat"
-                  checked={cat === "javascript"}
-                  value="javascript"
-                  id="javascript"
-                  onClick={onClickCategory}
-                >
-                  Javascript
-                </S.DropDownItems>
-                <S.DropDownItems
-                  checked={cat === "nodejs"}
-                  name="cat"
-                  value="nodejs"
-                  id="nodejs"
-                  onClick={onClickCategory}
-                >
-                  Nodejs
-                </S.DropDownItems>
-                <S.DropDownItems
-                  checked={cat === "aws"}
-                  name="cat"
-                  value="aws"
-                  id="aws"
-                  onClick={onClickCategory}
-                >
-                  AWS
-                </S.DropDownItems>
-                <S.DropDownItems
-                  checked={cat === "mysql"}
-                  name="cat"
-                  value="mysql"
-                  id="mysql"
-                  onClick={onClickCategory}
-                >
-                  Mysql
-                </S.DropDownItems>
+                {CATEGORY.map((el) => (
+                  <S.DropDownItems
+                    checked={cat === el.name}
+                    name="cat"
+                    value={el.name}
+                    onClick={onClickCategory}
+                  >
+                    {el.name}
+                  </S.DropDownItems>
+                ))}
               </S.DropDownContent>
             ) : (
               <></>
             )}
           </S.CategoryWrapper>
         </S.InputWrapper>
-
         <S.InputWrapper>
           <S.Label>제목</S.Label>
           <S.Subject
@@ -134,7 +110,7 @@ function Write({ setDesc, desc }) {
         <S.Contents
           type="text"
           placeholder="내용을 입력해주세여"
-          value={getText(contents)}
+          value={getText(contents) ?? ""}
           onChange={onChangeContents}
         />
       </S.InputWrapper>
@@ -151,5 +127,3 @@ function Write({ setDesc, desc }) {
     </S.Wrapper>
   );
 }
-
-export default Write;
