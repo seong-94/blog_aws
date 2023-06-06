@@ -12,7 +12,7 @@ import {
   NavBar,
 } from "./components/ComponentsIndex";
 
-function App() {
+export default function App() {
   return (
     <div className={styles.App}>
       <div className={styles.container}>
@@ -27,5 +27,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
