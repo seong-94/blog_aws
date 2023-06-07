@@ -3,9 +3,9 @@ import * as S from "./CommentListStyles";
 import axios from "axios";
 import { AuthContext } from "context/authContext";
 import { getDate } from "commons/libraries/utils";
-import CommentWrite from "../Write/CommentWrite";
+import CommentWrite from "../Write/CommentWrite.tsx";
 
-export default function CommentListItem({ postId, comment }) {
+export default function CommentListItem(props) {
   const { currentUser } = useContext(AuthContext);
   const userid = currentUser ? currentUser.users_id : null;
   const [isEdit, setIsEdit] = useState(false);
@@ -15,7 +15,7 @@ export default function CommentListItem({ postId, comment }) {
     try {
       await axios.delete(`/comments/${id}`);
       alert("댓글 이 삭제 돼었습니다.");
-      window.location.replace(`/post/${postId}`);
+      window.location.replace(`/post/${props.postId}`);
     } catch (err) {
       alert(err.request.responseText);
     }
@@ -27,17 +27,17 @@ export default function CommentListItem({ postId, comment }) {
   return (
     <>
       {!isEdit ? (
-        <S.ItemWrapper key={comment.id}>
+        <S.ItemWrapper key={props.comment.id}>
           <S.FlexWrapper>
             <S.Avatar src="/images/avatar.png" />
             <S.MainWrapper>
               <S.WriterWrapper>
-                <S.Writer>{comment.username}</S.Writer>
+                <S.Writer>{props.comment.username}</S.Writer>
               </S.WriterWrapper>
-              <S.Contents>{comment.desc}</S.Contents>
+              <S.Contents>{props.comment.desc}</S.Contents>
             </S.MainWrapper>
             <S.OptionWrapper>
-              {comment.userid === userid ? (
+              {props.comment.userid === userid ? (
                 <>
                   <S.UpdateIcon
                     src="/images/boardComment/list/update_icon.png"
@@ -46,7 +46,7 @@ export default function CommentListItem({ postId, comment }) {
                   <S.DeleteIcon
                     src="/images/boardComment/list/delete_icon.png"
                     onClick={(event) =>
-                      handleDeleteClick(event, comment.comments_id)
+                      handleDeleteClick(event, props.comment.comments_id)
                     }
                   />
                 </>
@@ -55,10 +55,14 @@ export default function CommentListItem({ postId, comment }) {
               )}
             </S.OptionWrapper>
           </S.FlexWrapper>
-          <S.DateString>{getDate(comment.date)}</S.DateString>
+          <S.DateString>{getDate(props.comment.date)}</S.DateString>
         </S.ItemWrapper>
       ) : (
-        <CommentWrite isEdit={isEdit} setIsEdit={setIsEdit} postId={postId} />
+        <CommentWrite
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          postId={props.postId}
+        />
       )}
     </>
   );

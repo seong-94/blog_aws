@@ -4,13 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styles from "./App.module.scss";
 // import components
 import { Login, Register } from "./auth/authIndex";
-import {
-  Category,
-  Home,
-  Single,
-  Write,
-  NavBar,
-} from "./components/ComponentsIndex";
+import { Home, Single, Write } from "./components/ComponentsIndex";
 
 export default function App() {
   return (

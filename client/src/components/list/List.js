@@ -76,7 +76,6 @@ function List({ listPerPage }) {
     setCurrentpage(e);
   };
 
-  // console.log(posts);
   return (
     <S.Wrapper>
       <>

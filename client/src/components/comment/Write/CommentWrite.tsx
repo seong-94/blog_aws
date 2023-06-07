@@ -1,32 +1,33 @@
 import axios from "axios";
 import { AuthContext } from "context/authContext";
-import { useState, useContext } from "react";
+import { useState, useContext, ChangeEvent, MouseEvent } from "react";
 import * as S from "./CommentWriteStyles";
-import { useLocation } from "react-router-dom";
 import moment from "moment";
+import { ICommentWriteProps } from "./CommentWriteTypes";
 
-export default function CommentWrite({ postId, isEdit, setIsEdit }) {
-  const state = useLocation().state;
+export default function CommentWrite(props: ICommentWriteProps) {
   const { currentUser } = useContext(AuthContext);
   const [desc, setDesc] = useState("");
   const username = currentUser ? currentUser.username : null;
 
-  const onHandleSubmit = async (e) => {
-    e.preventDefault();
+  const onHandleSubmit = async (
+    event: MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    event.preventDefault();
     if (desc === "") {
       alert("내용을 입력해주세요");
       return;
     }
     try {
       await axios.post(`/comments`, {
-        postId,
+        postId: props.postId,
         name: username,
         desc: desc,
         date: moment(Date.now()),
       });
-      window.location.replace(`/post/${postId}`);
+      window.location.replace(`/post/${props.postId}`);
       alert("댓글 성공");
-    } catch (err) {
+    } catch (err: any) {
       alert(err.request.responseText);
     }
   };
@@ -44,29 +45,13 @@ export default function CommentWrite({ postId, isEdit, setIsEdit }) {
   //   }
   // };
 
-  const onChangeContents = (event) => {
+  const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     setDesc(event.target.value);
   };
-  const onClickCancle = (event) => {
-    setIsEdit(!isEdit);
+  const onClickCancle = (event: MouseEvent<HTMLButtonElement>): void => {
+    props.setIsEdit(!props.isEdit);
   };
-  // const handleClick = async (e) => {
-  //   e.preventDefault();
-  //   if (desc === "") {
-  //     return;
-  //   }
-  //   try {
-  //     await axios.post(`/comments`, {
-  //       postId,
-  //       name: username,
-  //       desc: desc,
-  //       date: moment(Date.now()),
-  //     });
-  //     window.location.replace(`/post/${postId}`);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+
   return (
     <>
       <S.Wrapper>
@@ -78,24 +63,19 @@ export default function CommentWrite({ postId, isEdit, setIsEdit }) {
             value={desc}
             onChange={onChangeContents}
           ></S.Contents>
-          {/* <div>
-            <input
-              type="text"
-              placeholder="내용을 입력해주세요"
-              value={desc}
-              onChange={(e) => setDesc(e.target.value)}
-            />
-            <button onClick={handleClick}>등록</button>
-          </div> */}
           <S.BottomWrapper>
             <S.ContentsLength>
               {desc.length}
               /100
             </S.ContentsLength>
             <S.Button onClick={onHandleSubmit}>
-              {isEdit ? "수정하기" : "등록하기"}
+              {props.isEdit ? "수정하기" : "등록하기"}
             </S.Button>
-            {isEdit ? <S.Button onClick={onClickCancle}>취소</S.Button> : <></>}
+            {props.isEdit ? (
+              <S.Button onClick={onClickCancle}>취소</S.Button>
+            ) : (
+              <></>
+            )}
           </S.BottomWrapper>
         </S.ContentsWrapper>
       </S.Wrapper>

@@ -27,11 +27,10 @@ export const Input = styled.input`
   margin-right: 20px;
 `;
 
-export const Contents = styled.textarea`
+export const Contents = styled.textarea<{ type: string }>`
   width: 96%;
   min-height: 108px;
   padding: 20px;
-  /* margin: 0 auto; */
   border: none;
   border: 1px solid lightgray;
 `;

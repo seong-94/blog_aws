@@ -5,12 +5,12 @@ import { AuthContext } from "../../../context/authContext";
 import axios from "axios";
 
 import CommentListItem from "./CommentListItem";
-import CommentWrite from "../Write/CommentWrite";
+import CommentWrite from "../Write/CommentWrite.tsx";
 
 export default function CommentList({ postId }) {
-  const { currentUser } = useContext(AuthContext);
+  // const { currentUser } = useContext(AuthContext);
   // const userid = currentUser ? currentUser.id : null;
-  const username = currentUser ? currentUser.name : null;
+  // const username = currentUser ? currentUser.name : null;
   const [desc, setDesc] = useState("");
   const [getComment, setGetComment] = useState([]);
 
@@ -67,13 +67,12 @@ export default function CommentList({ postId }) {
     }
   };
 
-  useEffect(() => {
-    setCount(getComment.length);
-    setIndexOfLastPost(currentpage * postPerPage);
-    setIndexOfFirstPost(indexOfLastPost - postPerPage);
-    setCurrentPosts(getComment.slice(indexOfFirstPost, indexOfLastPost));
-  }, [currentpage, indexOfFirstPost, indexOfLastPost, getComment, postPerPage]);
-
+  // useEffect(() => {
+  //   setCount(getComment.length);
+  //   setIndexOfLastPost(currentpage * postPerPage);
+  //   setIndexOfFirstPost(indexOfLastPost - postPerPage);
+  //   setCurrentPosts(getComment.slice(indexOfFirstPost, indexOfLastPost));
+  // }, [currentpage, indexOfFirstPost, indexOfLastPost, getComment, postPerPage]);
   return (
     <>
       <CommentWrite postId={postId} desc={desc} />

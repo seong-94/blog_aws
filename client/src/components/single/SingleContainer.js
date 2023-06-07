@@ -20,7 +20,6 @@ export default function SingleContainer() {
   const [heartShift, setHeartShift] = useState(likes.includes(userid));
 
   const postId = location.pathname.split("/")[2];
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -90,6 +89,7 @@ export default function SingleContainer() {
         heartShift={heartShift}
         post={post}
         likes={likes}
+        postId={postId}
       />
     </>
   );

@@ -8,6 +8,7 @@ import { getDate, getText } from "commons/libraries/utils";
 import Comment from "components/comment/list/CommentsList";
 
 export default function SinglePresenter(props) {
+  console.log(props.postId, "aaa");
   return (
     <S.Wrapper>
       <S.CardWrapper>

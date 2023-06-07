@@ -21,8 +21,6 @@ export default function WriteContainer(): JSX.Element {
   const [dropCat, setDropCat] = useState(false);
   const navigate = useNavigate();
 
-  console.log(typeof state);
-
   const handleClick = async (
     event: MouseEvent<HTMLButtonElement>
   ): Promise<void> => {

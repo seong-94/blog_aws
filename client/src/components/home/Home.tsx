@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import List from "../list/List";
-import styles from "./Home.module.scss";
+import { HomeWrapper } from "./Homestyles";
 
-function Home() {
+export default function Home() {
   const [listPerPage] = useState(15);
   return (
-    <div className={styles.home}>
+    <HomeWrapper>
       <List listPerPage={listPerPage} />
-    </div>
+    </HomeWrapper>
   );
 }
-
-export default Home;
