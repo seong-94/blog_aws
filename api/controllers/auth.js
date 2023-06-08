@@ -48,7 +48,7 @@ export const login = (req, res) => {
     const { password, ...other } = data[0];
     res
       .cookie("auth_token", token, {
-        // httpOnly: true, /** https 가 아니라 보안에러 발생 */
+        httpOnly: true /** https 가 아니라 보안에러 발생 */,
         maxAge: 30 * 60 * 1000, //30 Mins
       })
       .status(200)
