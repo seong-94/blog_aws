@@ -26,7 +26,7 @@ export default function MypageContaier() {
           },
         });
         const resCount = await axios.get(
-          `/posts/count//${currentUser.users_id}`
+          `/posts/count/${currentUser.users_id}`
         );
         setItemCount(resCount.data);
         setPosts(res.data);

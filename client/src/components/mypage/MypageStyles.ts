@@ -110,7 +110,7 @@ export const Page = styled.span`
   cursor: "pointer";
   :hover {
     cursor: "none";
-    font-weight: "bold";
+    font-weight: "bolder";
     color: "blue";
   }
 `;
