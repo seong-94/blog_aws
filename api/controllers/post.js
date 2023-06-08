@@ -18,7 +18,7 @@ export const getPosts = function (req, res) {
      LEFT JOIN users AS u 
      ON p.uid = u.users_id 
      ORDER BY p.posts_id DESC `;
-
+  // console.log(req);
   db.query(q, [req.query.cat], (err, data) => {
     if (err) {
       return res.status(500).send(err);
@@ -100,5 +100,45 @@ export const updatePost = function (req, res) {
       if (err) return res.status(403).json(err);
       return res.json("Post has been updated.");
     });
+  });
+};
+
+export const getMyPosts = function (req, res) {
+  const uid = req.params.id;
+  const q = `SELECT p.*,u.users_id ,u.username 
+  ,(SELECT COUNT(*) FROM comments as c WHERE c.postid=p.posts_id) AS comments 
+  ,(SELECT COUNT(*) FROM likes as l WHERE l.postid=p.posts_id)  AS likes
+   FROM posts AS p
+   LEFT JOIN users AS u 
+   ON p.uid = u.users_id 
+   WHERE u.users_id =${uid}
+   ORDER BY p.posts_id DESC
+   LIMIT ${req.query.StartPage} ,${req.query.EndPage} `;
+
+  db.query(q, (err, data) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      return res.status(200).json(data);
+    }
+  });
+};
+
+export const getMyPostsCount = function (req, res) {
+  const uid = req.params.id;
+  const q = `SELECT p.posts_id
+   FROM posts AS p
+   LEFT JOIN users AS u 
+   ON p.uid = u.users_id 
+   WHERE u.users_id =${uid}
+   ORDER BY p.posts_id DESC
+  `;
+
+  db.query(q, (err, data) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      return res.status(200).json(data);
+    }
   });
 };

@@ -16,8 +16,6 @@ import { AiOutlineEye, AiOutlineHeart, AiOutlineComment } from "react-icons/ai";
 function List({ listPerPage }) {
   //get posts
   const [posts, setPosts] = useState([]);
-  //get username
-  // const [usernames, setUserName] = useState([]);
   //search for posts
   const [search, setSearch] = useState("");
   //pagination
@@ -91,20 +89,20 @@ function List({ listPerPage }) {
                     </h3>
                   </Link>
                   <h4>
-                    <S.ListTItem>{post.username}</S.ListTItem>
-                    <S.ListTItem>{getDate(post.date)} </S.ListTItem>
+                    <S.ListTItem>작성자 : {post.username}</S.ListTItem>
+                    <S.ListTItem>날짜 : {getDate(post.date)} </S.ListTItem>
                     <S.ListTItem>
                       <AiOutlineEye />
                     </S.ListTItem>
-                    <S.ListTItem>{post.view}</S.ListTItem>
+                    <S.ListTItem>조회수 : {post.view}</S.ListTItem>
                     <S.ListTItem>
                       <AiOutlineComment />
                     </S.ListTItem>
-                    <S.ListTItem>{post.comments}</S.ListTItem>
+                    <S.ListTItem>댓글 : {post.comments}</S.ListTItem>
                     <S.ListTItem>
                       <AiOutlineHeart />
                     </S.ListTItem>
-                    <S.ListTItem>{post.likes}</S.ListTItem>
+                    <S.ListTItem>추천 : {post.likes}</S.ListTItem>
                   </h4>
                 </S.List>
               </S.ListWrapper>
