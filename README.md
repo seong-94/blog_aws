@@ -1,5 +1,7 @@
 # blog_aws
 
+주소:http://ec2-13-125-76-186.ap-northeast-2.compute.amazonaws.com:5000/
+
 ## Front-End
 
 - Javascript
