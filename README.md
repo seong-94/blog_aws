@@ -1,6 +1,6 @@
 # BLOG_RPROGECT
 
-프로젝트링크 : http://ec2-13-125-76-186.ap-northeast-2.compute.amazonaws.com:5000/
+~~프로젝트링크 : http://ec2-13-125-76-186.ap-northeast-2.compute.amazonaws.com:5000/~~
 
 ![image](https://github.com/seong-94/blog_aws/assets/68951572/f20775ed-d436-4738-93f2-4297281b7fea)
 
